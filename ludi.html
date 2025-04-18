@@ -10,7 +10,6 @@
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
     >
 
-    <title>Pasintaj Enimgoj</title>
 <style>
 .sidenav {
   height: 100%;
@@ -46,22 +45,6 @@
   <script>
       PM_Config.PM_BasePath = "https://puzzleme.amuselabs.com/pmm/";
   </script>
-
-<header class="container">
-  <hgroup>
-  <nav>
-  <ul>
-      <li><strong id="title">Enigmoj</strong></li>
-  </ul>
-  <ul>
-      <li><a href="index.html">🏠</a></li>
-      <li>Ludi</li>
-      <li><a href="rimedoj.html">Rimedoj</a></li>
-      <li><a href="enplektigxu">Enplektiĝu!</a></li>
-  </ul>
-  </nav>
-</hgroup>
-</header>
 
 <script>
   function setPuzzle(dataId,dataSet,puzzleTitle)
@@ -135,12 +118,35 @@
   });
 </script>
 
-<aside class="sidenav">
+<script>
+ function closeDropdown(event) {
+      event.target.closest("details").removeAttribute("open");
+      console.log("stop!");
+  } 
+</script>
+
+<title>Pasintaj Enimgoj</title>
+
+<header class="container">
+  <hgroup>
   <nav>
-    <ul id="puzzle-list">
+  <ul>
+      <li><strong id="title">Enigmoj</strong></li>
+  </ul>
+  <ul>
+  <details class="dropdown">
+    <summary>Elekti Enigmon</summary>
+    <ul id="puzzle-list" onclick="closeDropdown(event)">
     </ul>
+  </details>
+      <li><a href="index.html">🏠</a></li>
+      <li>Ludi</li>
+      <li><a href="rimedoj.html">Rimedoj</a></li>
+      <li><a href="enplektigxu">Enplektiĝu!</a></li>
+  </ul>
   </nav>
-</aside>
+</hgroup>
+</header>
 
 <main class="container">
   <!-- Specifies the puzzle to be embedded on the page. If you want to render multiple games on your page then you can copy paste it multiple times. -->
