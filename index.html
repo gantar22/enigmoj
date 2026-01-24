@@ -224,7 +224,16 @@
                 order: -1;
             }
             .check-btn, .back-btn { font-size: 0.9em; padding: 6px 12px; }
-            #current-clue-display { font-size: 1em; margin-bottom: 10px; padding: 10px; }
+            #current-clue-display { 
+                font-size: 1em; 
+                margin-bottom: 10px; 
+                padding: 10px; 
+                position: sticky; 
+                top: 0; 
+                background-color: #f5f5f5; 
+                z-index: 100; 
+                border-bottom: 1px solid #ccc; 
+            }
         }
     </style>
 </head>
