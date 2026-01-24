@@ -342,6 +342,9 @@
             listView.style.display = 'none';
             gameView.style.display = 'block';
 
+            // Calculate max height for clues to prevent layout shifts
+            adjustClueDisplayHeight();
+
             if (updateUrl) {
                 history.pushState({id: id}, '', '?id=' + id);
             }
@@ -624,6 +627,34 @@
             return null;
         }
 
+        function adjustClueDisplayHeight() {
+            if (!currentPuzzleData) return;
+            const display = document.getElementById('current-clue-display');
+            const originalText = display.innerHTML;
+            
+            display.style.height = ''; 
+            display.innerHTML = '';
+            
+            ['across', 'down'].forEach(dir => {
+                const clues = currentPuzzleData.clues[dir];
+                if (clues) {
+                    clues.forEach(clue => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `${clue[0]} ${dir.toUpperCase()}: ${clue[1]}`;
+                        display.appendChild(div);
+                    });
+                }
+            });
+            
+            let maxH = 0;
+            Array.from(display.children).forEach(child => {
+                maxH = Math.max(maxH, child.offsetHeight);
+            });
+            
+            display.innerHTML = originalText;
+            display.style.height = maxH + 'px';
+        }
+
         function checkPuzzle() {
             if (!currentPuzzleData || !currentPuzzleData.solution) return;
             
@@ -774,6 +805,13 @@
             document.getElementById('consent-banner').style.display = 'none';
         }
         checkConsent();
+
+        // Handle resize to update clue display height
+        window.addEventListener('resize', () => {
+            if (gameView.style.display !== 'none') {
+                adjustClueDisplayHeight();
+            }
+        });
     </script>
 </body>
 </html>
