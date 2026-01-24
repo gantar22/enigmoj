@@ -92,6 +92,7 @@
             font-weight: bold;
             color: #333;
             caret-color: transparent;
+            box-sizing: border-box;
         }
         .cell input:focus { background-color: #bbdefb; }
         .cell.active-word { background-color: #e1f5fe; }
@@ -116,6 +117,9 @@
             background-color: #fff9c4;
             border-left: 4px solid #fbc02d;
             padding-left: 4px;
+        }
+        .clue-item.clue-filled {
+            color: #8c8c8c;
         }
 
         .back-btn {
@@ -677,6 +681,65 @@
             // Lerp from Yellow (Hue 50) to Green (Hue 120)
             const hue = 50 + (pct * 0.7);
             bar.style.backgroundColor = `hsl(${hue}, 80%, 50%)`;
+            
+            updateClueCompletion();
+        }
+
+        function updateClueCompletion() {
+            if (!currentPuzzleData) return;
+
+            ['across', 'down'].forEach(dir => {
+                if (!currentPuzzleData.clues[dir]) return;
+                
+                currentPuzzleData.clues[dir].forEach(clue => {
+                    const num = clue[0];
+                    const clueEl = document.getElementById(`clue-${dir}-${num}`);
+                    if (!clueEl) return;
+
+                    // Find start coordinates for this clue number
+                    let startR = -1, startC = -1;
+                    
+                    for(let r=0; r<currentPuzzleData.height; r++) {
+                        for(let c=0; c<currentPuzzleData.width; c++) {
+                            const cell = currentPuzzleData.grid[r][c];
+                            const cellNum = (typeof cell === 'object' && cell !== null) ? cell.cell : cell;
+                            if (cellNum == num) {
+                                startR = r;
+                                startC = c;
+                                break;
+                            }
+                        }
+                        if (startR !== -1) break;
+                    }
+
+                    if (startR === -1) return;
+
+                    // Check if all cells in this word are filled
+                    let isFilled = true;
+                    let currR = startR;
+                    let currC = startC;
+
+                    while(true) {
+                        if (currR >= currentPuzzleData.height || currC >= currentPuzzleData.width) break;
+                        
+                        const cellData = currentPuzzleData.grid[currR][currC];
+                        const isBlock = cellData === '#' || cellData === null;
+                        if (isBlock) break;
+
+                        const input = document.querySelector(`input[data-row="${currR}"][data-col="${currC}"]`);
+                        if (!input || !input.value) {
+                            isFilled = false;
+                            break;
+                        }
+
+                        if (dir === 'across') currC++;
+                        else currR++;
+                    }
+
+                    if (isFilled) clueEl.classList.add('clue-filled');
+                    else clueEl.classList.remove('clue-filled');
+                });
+            });
         }
         
         // Start
