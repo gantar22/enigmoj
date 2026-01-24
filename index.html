@@ -55,12 +55,14 @@
             background-color: #000;
             border: 3px solid #000;
             gap: 1px;
+            grid-template-columns: repeat(var(--grid-cols), 1fr);
+            max-width: 600px;
+            margin: 0 auto;
         }
         .cell {
             background-color: #fff;
             position: relative;
-            width: 36px;
-            height: 36px;
+            aspect-ratio: 1 / 1;
         }
         .cell.block { background-color: #000; }
         .cell-number {
@@ -76,7 +78,7 @@
             height: 100%;
             border: none;
             text-align: center;
-            font-size: 18px;
+            font-size: clamp(12px, 5vw, 22px);
             text-transform: uppercase;
             background: transparent;
             outline: none;
@@ -159,6 +161,13 @@
             transition: width 0.3s ease, background-color 0.3s ease;
         }
 
+        #current-clue-display {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            min-height: 1.4em;
+        }
+
         #consent-banner {
             position: fixed;
             bottom: 0;
@@ -183,6 +192,15 @@
             font-weight: bold;
         }
         #consent-banner button:hover { background: #2ecc71; }
+
+        @media (max-width: 768px) {
+            #clues-container { display: none; }
+            #game-layout { display: block; }
+            body { padding: 10px; }
+            .game-header h2 { font-size: 1.5em !important; }
+            .check-btn, .back-btn { font-size: 0.9em; padding: 6px 12px; }
+            #current-clue-display { font-size: 1em; margin-bottom: 10px; padding: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -196,12 +214,13 @@
     <div id="game-view">
         <div class="game-header">
             <button class="back-btn" onclick="showList()">← Back to Puzzles</button>
-            <h2 id="game-title" style="margin: 0; font-size: 1.2em; color: #333;"></h2>
+            <h2 id="game-title" style="margin: 0; font-size: 2.5em; color: #333;"></h2>
             <button class="check-btn" onclick="checkPuzzle()">Check Puzzle</button>
         </div>
         <div id="progress-container">
             <div id="progress-bar"></div>
         </div>
+        <div id="current-clue-display"></div>
         <div id="game-layout">
             <div id="grid-container"></div>
             <div id="clues-container">
@@ -322,8 +341,7 @@
             gridContainer.innerHTML = '';
             const gridEl = document.createElement('div');
             gridEl.className = 'crossword-grid';
-            gridEl.style.gridTemplateColumns = `repeat(${data.width}, 36px)`;
-            gridEl.style.gridTemplateRows = `repeat(${data.height}, 36px)`;
+            gridEl.style.setProperty('--grid-cols', data.width);
 
             data.grid.forEach((row, rIndex) => {
                 row.forEach((cellData, cIndex) => {
@@ -516,12 +534,22 @@
             const c = parseInt(input.dataset.col);
             const clueNum = findClueNumber(r, c, currentDirection);
             highlightWord(r, c, currentDirection);
+            
+            const display = document.getElementById('current-clue-display');
+            
             if (clueNum) {
                 const clueEl = document.getElementById(`clue-${currentDirection}-${clueNum}`);
                 if (clueEl) {
                     clueEl.classList.add('active-clue');
                     clueEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
+                
+                const clueData = currentPuzzleData.clues[currentDirection].find(x => x[0] == clueNum);
+                if (clueData) {
+                    display.textContent = `${clueNum} ${currentDirection.toUpperCase()}: ${clueData[1]}`;
+                }
+            } else {
+                display.textContent = '';
             }
         }
 
