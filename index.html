@@ -38,9 +38,9 @@
             --text-main: #dddddd;
             --text-secondary: #b0b0b0;
             --text-muted: #a0a0a0;
-            --grid-border: #000000;
+            --grid-border: #121212;
             --cell-bg: #222222;
-            --cell-block: #000000;
+            --cell-block: #121212;
             --input-focus: #1565c0;
             --active-word: #263238;
             --active-clue-bg: #3e2723;
@@ -61,7 +61,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 1200px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 20px;
             background: var(--bg-body);
@@ -69,9 +69,9 @@
         }
 
         /* List View Styles */
-        #list-view { max-width: 800px; margin: 0 auto; padding-top: 20px; }
-        h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; }
-        .puzzle-list { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        #list-view { margin: 0 auto; padding-top: 20px; }
+        h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .puzzle-list { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory; margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
         
         /* View Visibility Toggles */
         #list-view, #game-view { display: none; }
@@ -92,11 +92,28 @@
             text-align: center;
             border: none;
             font: inherit;
-            width: 100%;
+            flex: 0 0 260px;
+            scroll-snap-align: start;
             box-sizing: border-box;
         }
         .puzzle-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.12); }
         .puzzle-title { font-weight: bold; font-size: 1.2em; margin-bottom: 8px; color: var(--text-main); }
+        .puzzle-preview {
+            display: grid;
+            gap: 1px;
+            background-color: var(--grid-border);
+            border: 2px solid var(--grid-border);
+            width: 100%;
+            margin-bottom: 15px;
+            pointer-events: none;
+        }
+        .preview-cell {
+            background-color: var(--cell-bg);
+            aspect-ratio: 1 / 1;
+        }
+        .preview-cell.block {
+            background-color: var(--cell-block);
+        }
         .puzzle-status { color: var(--text-muted); font-size: 0.9em; background: var(--key-active); padding: 2px 8px; border-radius: 10px; }
         .puzzle-status.solved { background: #e8f5e9; color: #2e7d32; }
 
@@ -114,7 +131,7 @@
             background-color: var(--grid-border);
             border: 3px solid var(--grid-border);
             gap: 1px;
-            --cell-size: max(36px, 600px / var(--grid-cols));
+            --cell-size: max(44px, 800px / var(--grid-cols));
             grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
             grid-template-rows: repeat(var(--grid-rows), var(--cell-size));
             margin: 0 auto;
@@ -164,14 +181,14 @@
             flex: 1;
             display: flex;
             gap: 20px;
-            max-height: 600px;
+            max-height: 800px;
             overflow-y: auto;
         }
         .clue-column { flex: 1; }
         .clue-column h3 { border-bottom: 2px solid var(--text-main); padding-bottom: 5px; color: var(--text-main); }
         .clue-item {
             margin-bottom: 6px;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.4;
             cursor: pointer;
             color: var(--text-main);
@@ -244,6 +261,7 @@
         }
         .menu-item:last-child { border-bottom: none; }
         .menu-item:hover { background-color: var(--menu-hover); }
+        .menu-item.mobile-only { display: none; }
         
         .cell input.correct { color: #2e7d32; }
         .cell input.incorrect { color: #c62828; }
@@ -334,7 +352,7 @@
             justify-content: center;
         }
         .modal-content {
-            background-color: #fefefe;
+            background-color: var(--modal-bg);
             margin: auto;
             padding: 30px;
             border-radius: 12px;
@@ -402,6 +420,7 @@
                 flex-wrap: nowrap;
                 gap: 5px;
             }
+            .menu-item.mobile-only { display: block; }
             .crossword-grid {
                 grid-template-columns: repeat(var(--grid-cols), 1fr);
                 grid-template-rows: auto;
@@ -459,6 +478,12 @@
             .clue-nav {
                 display: flex;
             }
+            .puzzle-list {
+                margin-left: -10px;
+                margin-right: -10px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
         }
     </style>
 </head>
@@ -477,11 +502,13 @@
             <div class="menu-container">
                 <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
                 <div id="game-menu" class="dropdown-menu">
-                    <button class="menu-item" onclick="revealWord(); toggleMenu()">Reveal Word</button>
-                    <button class="menu-item" onclick="checkPuzzle(); toggleMenu()">Check Puzzle</button>
-                    <button class="menu-item" onclick="clearChecks(); toggleMenu()">Clear Checks</button>
-                    <button class="menu-item" onclick="toggleKeyboard(); toggleMenu()">Toggle Keyboard</button>
-                    <button class="menu-item" onclick="toggleTheme(); toggleMenu()">Toggle Dark Mode</button>
+                    <button class="menu-item menu-reveal" onclick="revealWord(); toggleMenu()">Malkaŝi Vorton</button>
+                    <button class="menu-item menu-check" onclick="checkPuzzle(); toggleMenu()">Kontroli Enigmon</button>
+                    <button class="menu-item menu-clear" onclick="clearChecks(); toggleMenu()">Nuligi Kontroladon</button>
+                    <button class="menu-item mobile-only" onclick="openCluesModal(); toggleMenu()">Montri Indikojn</button>
+                    <button id="menu-submit-btn" class="menu-item" onclick="openSubmitModal(); toggleMenu()" style="display: none;">Submit Solution</button>
+                    <button class="menu-item" onclick="toggleKeyboard(); toggleMenu()">Ŝalti Klavaron</button>
+                    <button class="menu-item" onclick="toggleTheme(); toggleMenu()">Ŝanĝi Helreĝimon</button>
                 </div>
             </div>
         </div>
@@ -497,11 +524,11 @@
             <div id="grid-container"></div>
             <div id="clues-container">
                 <div class="clue-column">
-                    <h3>Across</h3>
+                    <h3>Horizontale</h3>
                     <div id="across-clues"></div>
                 </div>
                 <div class="clue-column">
-                    <h3>Down</h3>
+                    <h3>Vertikale</h3>
                     <div id="down-clues"></div>
                 </div>
             </div>
@@ -533,13 +560,41 @@
             <div style="margin-bottom: 20px; text-align: left; display: inline-block;">
                 <label style="cursor: pointer; display: flex; align-items: center; justify-content: center;">
                     <input type="checkbox" id="confirm-dont-show" style="margin-right: 8px; width: auto; height: auto; position: static;">
-                    Don't show this again
+                    Ne montru tion denove
                 </label>
             </div>
             <div style="display: flex; justify-content: center; gap: 10px;">
-                <button class="modal-btn secondary" onclick="closeConfirmModal()">Cancel</button>
-                <button id="confirm-action-btn" class="modal-btn success" onclick="executeConfirm()">Confirm</button>
+                <button class="modal-btn secondary" onclick="closeConfirmModal()">Nuligi</button>
+                <button id="confirm-action-btn" class="modal-btn success" onclick="executeConfirm()">Konfirmi</button>
             </div>
+        </div>
+    </div>
+
+    <!-- SUBMIT MODAL -->
+    <div id="submit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">Submeti Solvon</div>
+            <div class="modal-message">
+                Enigu viajn detalojn por submeti vian solvon por la konkurso.<br>
+                <span style="font-size: 0.9em; color: var(--text-secondary);">Sendu al: <strong id="submit-email-display" style="user-select: all;"></strong></span>
+            </div>
+            <input type="text" id="submit-name" placeholder="Via Nomo" style="width: 80%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em;">
+            <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="modal-btn secondary" onclick="closeSubmitModal()">Nuligi</button>
+                <button class="modal-btn" style="background-color: #2196F3; color: white;" onclick="copySubmission()">Kopii Solvon</button>
+                <button class="modal-btn success" onclick="sendSubmission()">Retpoŝti</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLUES MODAL -->
+    <div id="clues-modal" class="modal">
+        <div class="modal-content" style="text-align: left; max-height: 80vh; overflow-y: auto; width: 90%; max-width: 600px; padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 class="modal-title" style="margin: 0;">Indikoj</h2>
+                <button class="modal-btn secondary" onclick="closeCluesModal()" style="padding: 5px 10px;">Fermi</button>
+            </div>
+            <div id="clues-modal-list"></div>
         </div>
     </div>
 
@@ -553,12 +608,14 @@
             },
             'ĉiu_timas_ion': {
                 title: 'Ĉiu timas ion',
+                contestMode: true,
+                contestEmail: 'me@example.com',
                 data: {"version":"http://ipuz.org/v1","kind":["http://ipuz.org/crossword#1"],"title":"Ĉiu timas ion","copyright":"","author":"Kartero WILLIAMS","notes":"","dimensions":{"height":15,"width":15},"block":"#","empty":0,"puzzle":[[{"cell":1},{"cell":2},{"cell":3},{"cell":4},"#","#",{"cell":5},{"cell":6},{"cell":7},"#","#",{"cell":8},{"cell":9},{"cell":10},{"cell":11}],[{"cell":12},{"cell":0},{"cell":0},{"cell":0},"#","#",{"cell":13},{"cell":0},{"cell":0},"#",{"cell":14},{"cell":0},{"cell":0},{"cell":0},{"cell":0}],[{"cell":15},{"cell":0},{"cell":0},{"cell":0},"#",{"cell":16},{"cell":0},{"cell":0},{"cell":0},{"cell":17},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0}],["#",{"cell":18},{"cell":0},{"cell":0},{"cell":19},{"cell":0},"#","#",{"cell":20},{"cell":0},{"cell":0},{"cell":0},"#","#","#"],["#",{"cell":21},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":22},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":23},{"cell":24},{"cell":25}],["#","#","#",{"cell":26},{"cell":0},{"cell":0},{"cell":0},"#","#","#","#","#",{"cell":27},{"cell":0},{"cell":0}],[{"cell":28},{"cell":29},{"cell":30},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":31},{"cell":32},{"cell":33},"#","#",{"cell":34},{"cell":0},{"cell":0}],[{"cell":35},{"cell":0},{"cell":0},"#",{"cell":36},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":37},"#",{"cell":38},{"cell":0},{"cell":0}],[{"cell":39},{"cell":0},{"cell":0},"#","#",{"cell":40},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":41},{"cell":0},{"cell":0},{"cell":0}],[{"cell":42},{"cell":0},{"cell":0},"#","#","#","#","#",{"cell":43},{"cell":0},{"cell":0},{"cell":0},"#","#","#"],[{"cell":44},{"cell":0},{"cell":0},{"cell":45},{"cell":46},{"cell":47},{"cell":48},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":49},{"cell":50},"#"],["#","#","#",{"cell":51},{"cell":0},{"cell":0},{"cell":0},"#","#",{"cell":52},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#"],[{"cell":53},{"cell":54},{"cell":55},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":56},{"cell":57},{"cell":0},"#",{"cell":58},{"cell":0},{"cell":0},{"cell":59}],[{"cell":60},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#",{"cell":61},{"cell":0},{"cell":0},"#","#",{"cell":62},{"cell":0},{"cell":0},{"cell":0}],[{"cell":63},{"cell":0},{"cell":0},{"cell":0},"#","#",{"cell":64},{"cell":0},{"cell":0},"#","#",{"cell":65},{"cell":0},{"cell":0},{"cell":0}]],"solution":[["P","U","L","S","#","#","T","I","A","#","#","L","A","M","A"],["A","V","I","A","#","#","R","A","N","#","K","I","R","A","S"],["R","U","B","L","#","L","I","M","G","A","R","D","E","J","O"],["#","L","A","I","K","A","#","#","O","L","E","I","#","#","#"],["#","A","N","K","A","Ŭ","P","O","R","D","I","A","B","L","O"],["#","#","#","O","J","D","I","#","#","#","#","#","R","I","Z"],["T","R","A","K","U","I","R","I","T","A","#","#","E","T","O"],["I","E","N","#","T","R","I","P","O","L","O","#","M","O","N"],["B","A","T","#","#","E","K","S","P","E","D","I","S","T","O"],["E","G","O","#","#","#","#","#","A","Z","E","N","#","#","#"],["T","O","N","D","R","O","E","K","Z","I","S","T","A","S","#"],["#","#","#","N","E","N","I","#","#","L","O","R","N","O","#"],["S","E","N","E","L","I","R","E","J","O","#","I","G","L","O"],["E","K","I","P","O","#","I","R","I","#","#","G","L","O","R"],["L","U","T","R","#","#","K","O","D","#","#","I","O","N","A"]],"clues":{"Across":[[1,"batad' de la arterioj kaŭzita de sangofluo"],[5,"kia estas la vivo"],[8,"Tibetlingva titol' de altrangaj bikŝuoj, la ĉefa de tiuj estas la Dalai-____o"],[12,"Rilata al aerveturado"],[13,"Amfibia best' kiu princiĝas je kiso"],[14,"Komplet' de kavaliro"],[15,"Valut' en Rusujo"],[16,"Enirloko de lando"],[18,"Nefakula"],[20,"Ŝmiri per grasa likvo"],[21,"______________ [44 Horizontale] (ĉiu timas ion)"],[26,"Meldu' kiu ŝatas vinberojn"],[27,"Gren' kultivata en malprofunde inunditaj kampoj"],[28,"Tutpretigita por manĝado"],[34,"Unu literumo de la sepa litero de la greka alfabeto."],[35,"Ialoken"],[36,"Ĉefurbo de Libio"],[38,"Pagil'"],[39,"Frap'"],[40,"Profesiul' pri plusendado"],[42,"Individua mem-konsci': alinome La Mi'"],[43,"____' al ____o riproĉas malsaĝon"],[44,"[21 Horizontale] _________ (ĉiu timas ion)"],[51,"Malajn-"],[52,"Ilo por vidi foraĵojn"],[53,"Nesolvebla situacio"],[58,"Dom' el glacio"],[60,"Ilaro de profesio"],[61,"Neĉi-tieiĝi"],[62,"Admir' kaj aprez' meritita"],[63,"Naĝema kuzo de la mustelo"],[64,"Signosistem'"],[65,"Modalo de \"Let It Be\""]],"Down":[[1,"Duop'"],[2,"Tia kia la ro en germanujo kaj francujo"],[3,"Ŝtat' kies flago prezentas cedron"],[4,"Kurioza krustul' kiu fojfoje troviĝas ĉe rando de koktelglaso"],[5,"Ŝiru vin en du partojn, la mondo ___an postulos"],[6,"Ne nun, sed ___"],[7,"Emoci' kiun montras \"La Ŝriko\" farita de edvardo MUNCH"],[8,"Modalo de \"Dreams\""],[9,"Esperanta renkontiĝo okazanta en N.A. dum Oktobro"],[10,"Printempa monat'"],[11,"Ludpeco kiu samtempe plejaltas kaj plejmalaltas"],[14,"Estigi"],[16,"Kiel oni raportas"],[17,"Muzikinstrument' inter violono kaj violonĉelo"],[19,"Pilotej'"],[22,"Verspied' senakcenta"],[23,"Haltigil'"],[24,"Maltroig'"],[25,"Oksigeno trioble"],[28,"Land' nordflanke de Himalajo"],[29,"Efiko de efikito"],[30,"_____i Graboski"],[31,"Gravurema koleopter' invada en Aŭstralio"],[32,"Juvelŝton' per kies nomo titoliĝis filmo de aflredo HITCHCOCK en 1969"],[33,"Instrumento por glatigi la internon de boraĵo aŭ cilindro"],[37,"Perlo de la Nigra Maro"],[41,"insidi"],[45,"River' tra Kijivo"],[46,"Stango kuŝanta sur ŝpaloj"],[47,"___ parolas esperanton"],[48,"Liev ____sson: la unua eŭropano en ameriko, norvegliterume"],[49,"Naciec' de marjorie BOUTLAN"],[50,"Patr' de demokratio"],[53,"Rajdŝeg'"],[54,"Ĉu ni ___?"],[55,"Fungaspekta metala fiksil'"],[56,"-atomo"],[57,"Judgermana lingv'"],[59,"___ ŝlosilo ĉiun pordon malfermas"]]}}
             },
-                'kvarkvar': {
-                title: 'test',
-                data: {"version":"http://ipuz.org/v1","kind":["http://ipuz.org/crossword#1"],"title":"Untitled Project","copyright":"© 2025","author":"","notes":"","dimensions":{"height":4,"width":4},"block":"#","empty":0,"puzzle":[[{"cell":1},{"cell":2},{"cell":3},{"cell":4}],[{"cell":5},{"cell":0},{"cell":0},{"cell":0}],[{"cell":6},{"cell":0},{"cell":0},{"cell":0}],[{"cell":7},{"cell":0},{"cell":0},{"cell":0}]],"solution":[["A","B","C","D"],["A","B","C","D"],["A","B","C","D"],["A","B","C","D"]],"clues":{"Across":[[1,""],[5,""],[6,""],[7,""]],"Down":[[1,""],[2,""],[3,""],[4,""]]}}
-           },
+            'mi_kaj_mia_espero': {
+                title: 'Mi kaj mia espero',
+                data:  {"version":"http://ipuz.org/v1","kind":["http://ipuz.org/crossword#1"],"title":"mi kaj mia espero","copyright":"","author":"kartero","notes":"","dimensions":{"height":15,"width":15},"block":"#","empty":0,"puzzle":[[{"cell":1},{"cell":2},{"cell":3},{"cell":4},{"cell":5},{"cell":6},{"cell":7},"#",{"cell":8},{"cell":9},{"cell":10},{"cell":11},{"cell":12},{"cell":13},{"cell":14}],[{"cell":15},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#",{"cell":16},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0}],[{"cell":17},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#",{"cell":18},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0}],[{"cell":19},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#","#","#",{"cell":20},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0}],["#","#","#",{"cell":21},{"cell":0},{"cell":0},{"cell":22},{"cell":23},{"cell":24},{"cell":0},{"cell":0},{"cell":0},"#","#","#"],["#",{"cell":25},{"cell":26},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":27},{"cell":28},"#"],[{"cell":29},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#",{"cell":30},{"cell":0},{"cell":0},"#",{"cell":31},{"cell":0},{"cell":0},{"cell":0},{"cell":32}],[{"cell":33},{"cell":0},{"cell":0},"#","#","#",{"cell":34},{"cell":0},{"cell":0},"#","#","#",{"cell":35},{"cell":0},{"cell":0}],[{"cell":36},{"cell":0},{"cell":0},{"cell":37},{"cell":38},"#",{"cell":39},{"cell":0},{"cell":0},"#",{"cell":40},{"cell":41},{"cell":0},{"cell":0},{"cell":0}],["#",{"cell":42},{"cell":0},{"cell":0},{"cell":0},{"cell":43},{"cell":0},{"cell":0},{"cell":0},{"cell":44},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#"],["#","#","#",{"cell":45},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#","#","#"],[{"cell":46},{"cell":47},{"cell":48},{"cell":0},{"cell":0},{"cell":0},"#","#","#",{"cell":49},{"cell":0},{"cell":0},{"cell":50},{"cell":51},{"cell":52}],[{"cell":53},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":54},"#",{"cell":55},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0}],[{"cell":56},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#",{"cell":57},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0}],[{"cell":58},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},"#",{"cell":59},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0},{"cell":0}]],"solution":[["A","R","B","I","T","R","E","#","K","A","P","M","O","V","O"],["L","E","O","N","R","O","K","#","A","M","R","I","D","E","T"],["F","E","N","D","O","T","A","#","P","I","A","N","O","L","O"],["A","L","E","U","T","O","#","#","#","K","S","E","N","O","N"],["#","#","#","L","U","N","R","A","D","I","O","J","#","#","#"],["#","V","A","G","A","D","I","S","E","N","C","E","L","E","#"],["D","E","L","I","R","#","P","E","Z","#","I","N","U","N","D"],["U","Z","I","#","#","#","E","K","I","#","#","#","E","D","R"],["B","I","R","D","O","#","T","U","R","#","M","A","J","A","O"],["#","K","I","A","M","M","I","R","E","V","E","N","O","S","#"],["#","#","#","K","A","J","S","I","M","I","L","E","#","#","#"],["M","E","M","O","R","E","#","#","#","E","K","K","R","A","K"],["A","C","E","T","I","L","O","#","U","N","I","S","O","N","O"],["S","A","T","A","N","O","N","#","M","A","T","A","D","O","R"],["K","R","A","J","O","N","O","#","E","N","A","Ĵ","O","J","N"]],"clues":{"Across":[[1,"Laŭ nenio aparte"],[8,"Senvorta esprimo, svinge, kline, aŭ balance"],[15,"Mont' en Honkongo, nomata pro kataspekto"],[16,"Mien' koketa"],[17,"Tia, kia haro inter esperantistoj kiam oni starigas demandon gramatikan"],[18,"Memludanta klavar-instrumento"],[19,"Indiĝeno de vulkana insularo en la norda Pacifiko."],[20,"Nobla gas' nomata \"fremda\" helene"],[21,"Stratlampoj de la prauloj"],[25,"Kant-titolo el \"La Arĝenta Albumo\": Promeni vespere"],[29,"perturba stat' konfuza kaj halucina"],[30,"Gravita fort'"],[31,"Superflu'"],[33,"utiligi"],[34,"Komenciĝi"],[35,"Geometria fac'"],[36,"Besto flugema"],[39,"Militaĵ' kiu moviĝas vertikale kaj horizontale, sed ne diagonale"],[40,"Ano de indiĝena socio en Jukatano"],[42,"Kant-titolo el la albumo \"Amu Min\": Je la momento de malkabeiĝo"],[45,"K.S."],[46,"______ al iu forpasinta"],[49,"Subita krevson'"],[53,"Radikalo de acido el kiu konsistas vinagro"],[55,"Aŭdigo de multaj voĉoj samtempe kaj samnote"],[56,"Princon de mallumo aŭ membron de laborista esperanta asocio"],[57,"Profesi' de Escamiljo en la opero \"Carmen\""],[58,"Skribilo forviŝebla"],[59,"Internajn partojn"]],"Down":[[1,"La litero per kiu oni indikas diafanecon en ciferecaj bildoj"],[2,"La ne-imaginara part' de kompleksa nombro"],[3,"Nu ____,"],[4,"Pardoni"],[5,"Piedvoj' apud veturvojo"],[6,"Ronda konstruaĵ' sub kupolo"],[7,"Subita"],[8,"Liter' reprezentanta geometran kurbecon"],[9,"Kamarad' kiu apartenas al la sekso de Eva"],[10,"Homgrup' de antaŭaj epokoj"],[11,"Kien oni sendas malplenajn ĉarojn por elporti volorajn mineralojn"],[12,"Muzikan poemon, kutime adresitan"],[13,"Tio kio pelas boaton per la vento"],[14,"Edzon de Popea"],[22,"Diris denove"],[23,"Sekurigi finance"],[24,"Avid'"],[25,"Sakforma organ'"],[26,"Moviĝi iacelen"],[27,"Loko kie oni trovas provizore haveblajn aferojn, kiel aŭtojn"],[28,"Devas esti farata"],[29,"Malcert'"],[32,"Mallona titolo de tiuj kiuj defendis siajn disertaĵojn"],[37,"Tiaj kiaj la anoj de indiĝena popolo loĝinte plejparte en nuntempa Minesoto."],[38,"Krustulo malofte blua, kiu apartenas al la sekso de Eva"],[40,"Tia kia bovino uzita"],[41,"Havaj' (rilate al Usono)"],[43,"Nervon kies nomo similas tio de abelproduktaĵo kiam oni ne atentas la vokalojn"],[44,"Hom' kiu loĝas en la ĉefurbo de Aŭstrio"],[46,"Trompa aspekt'"],[47,"esenc' (se oni ŝatas sufiksojn)"],[48,"post- (parolante pri sciencoj)"],[50,"Eksterhavena ankrejo"],[51,"Membroj"],[52,"Muzikinstrument' origine farita el keratinaj ornamaĵoj de viraj bestoj."],[54,"Frakcio"],[55,"En nedifinita maniero"]]}}
+            },
         };
 
         // --- APP LOGIC ---
@@ -575,6 +632,8 @@
         let lastActiveCell = null;
         let lastFilledCount = 0;
         let virtualKeyboardEnabled = localStorage.getItem('cw_virtual_keyboard') === 'true';
+        let isContestMode = false;
+        let keyboardMode = 'default';
 
         // Initialize List
         function initList() {
@@ -638,8 +697,23 @@
 
                 const statusClass = status === 'Solved!' ? 'puzzle-status solved' : 'puzzle-status';
 
+                let previewHtml = '';
+                if (p.data && p.data.puzzle) {
+                    const w = p.data.dimensions.width;
+                    previewHtml = `<div class="puzzle-preview" style="grid-template-columns: repeat(${w}, 1fr)">`;
+                    p.data.puzzle.forEach(row => {
+                        row.forEach(cell => {
+                            let isBlock = cell === '#' || cell === null;
+                            if (typeof cell === 'object' && cell !== null && cell.style && cell.style.shapebg === 'circle') isBlock = false;
+                            previewHtml += `<div class="preview-cell ${isBlock ? 'block' : ''}"></div>`;
+                        });
+                    });
+                    previewHtml += '</div>';
+                }
+
                 btn.innerHTML = `
                     <div class="puzzle-title">${p.title}</div>
+                    ${previewHtml}
                     <div class="${statusClass}">${status}</div>
                 `;
                 container.appendChild(btn);
@@ -665,6 +739,8 @@
             currentPuzzleId = id;
             currentPuzzleData = parseIpuz(record.data);
             document.getElementById('game-title').textContent = record.title;
+            isContestMode = !!record.contestMode;
+            updateContestModeUI();
             lastFilledCount = 0;
             lastActiveCell = null;
             document.getElementById('current-clue-display').textContent = '';
@@ -688,6 +764,12 @@
             if (updateUrl) {
                 history.pushState({id: id}, '', '?id=' + id);
             }
+        }
+
+        function updateContestModeUI() {
+            document.querySelector('.menu-reveal').style.display = isContestMode ? 'none' : 'block';
+            document.querySelector('.menu-check').style.display = isContestMode ? 'none' : 'block';
+            document.querySelector('.menu-clear').style.display = isContestMode ? 'none' : 'block';
         }
 
         // --- IPUZ Parser ---
@@ -750,6 +832,7 @@
                     div.id = `clue-${direction}-${clue[0]}`;
                     div.className = 'clue-item';
                     div.innerHTML = `<span class="clue-number">${clue[0]}</span> ${clue[1]}`;
+                    div.onclick = () => handleClueClick(clue[0], direction);
                     container.appendChild(div);
                 });
             };
@@ -852,7 +935,17 @@
             const clueList = currentPuzzleData.clues[dir];
             const currentIndex = clueList.findIndex(item => item[0] == currentNum);
             if (currentIndex === -1) return false;
-            const nextIndex = (currentIndex + 1) % clueList.length;
+            
+            let nextIndex = (currentIndex + 1) % clueList.length;
+            
+            for (let i = 0; i < clueList.length; i++) {
+                const checkIndex = (currentIndex + 1 + i) % clueList.length;
+                const checkNum = clueList[checkIndex][0];
+                if (!isClueFilled(checkNum, dir)) {
+                    nextIndex = checkIndex;
+                    break;
+                }
+            }
             const nextNum = clueList[nextIndex][0];
             
             for(let y=0; y<currentPuzzleData.height; y++) {
@@ -863,6 +956,40 @@
                 }
             }
             return false;
+        }
+
+        function isClueFilled(num, dir) {
+            let startR = -1, startC = -1;
+            for(let r=0; r<currentPuzzleData.height; r++) {
+                for(let c=0; c<currentPuzzleData.width; c++) {
+                    const cell = currentPuzzleData.grid[r][c];
+                    let cellNum = (typeof cell === 'object' && cell !== null) ? cell.cell : cell;
+                    if (cellNum == num) {
+                        startR = r;
+                        startC = c;
+                        break;
+                    }
+                }
+                if (startR !== -1) break;
+            }
+            if (startR === -1) return false;
+
+            let currR = startR;
+            let currC = startC;
+            
+            while(true) {
+                if (currR >= currentPuzzleData.height || currC >= currentPuzzleData.width) break;
+                const cellData = currentPuzzleData.grid[currR][currC];
+                const isBlock = cellData === '#' || cellData === null;
+                if (isBlock) break;
+                
+                const input = document.querySelector(`input[data-row="${currR}"][data-col="${currC}"]`);
+                if (!input || input.value === '') return false;
+                
+                if (dir === 'across') currC++;
+                else currR++;
+            }
+            return true;
         }
 
         function jumpToPreviousClue(r, c, dir) {
@@ -1011,6 +1138,7 @@
 
         function checkPuzzle() {
             if (!currentPuzzleData || !currentPuzzleData.solution) return;
+            if (isContestMode) return;
 
             if (localStorage.getItem('cw_suppress_check_confirm')) {
                 doCheckPuzzle();
@@ -1018,8 +1146,8 @@
             }
             
             showConfirmModal(
-                "Check Puzzle?",
-                "Are you sure? This will verify your current answers against the solution. Incorrect letters will be marked in red.",
+                "Ĉu kontroli enigmon?",
+                "Ĉu vi certas? Tio kontrolos viajn nunajn respondojn kontraŭ la solvo. Malĝustaj literoj estos markitaj ruĝe.",
                 () => {
                     if (document.getElementById('confirm-dont-show').checked) {
                         localStorage.setItem('cw_suppress_check_confirm', 'true');
@@ -1053,6 +1181,7 @@
 
         function revealWord() {
             if (!currentPuzzleData || !currentPuzzleData.solution || !lastActiveCell) return;
+            if (isContestMode) return;
 
             if (localStorage.getItem('cw_suppress_reveal_confirm')) {
                 doRevealWord();
@@ -1060,8 +1189,8 @@
             }
 
             showConfirmModal(
-                "Reveal Word?",
-                "Are you sure? This will fill in the currently selected word with the correct answer. This cannot be undone.",
+                "Ĉu malkaŝi vorton?",
+                "Ĉu vi certas? Tio plenigos la nune elektitan vorton per la ĝusta respondo. Tio ne estas malfarebla.",
                 () => {
                     if (document.getElementById('confirm-dont-show').checked) {
                         localStorage.setItem('cw_suppress_reveal_confirm', 'true');
@@ -1151,6 +1280,14 @@
             
             updateClueCompletion();
 
+            // Show/Hide Submit button in menu based on fullness in contest mode
+            const submitBtn = document.getElementById('menu-submit-btn');
+            if (isContestMode && filled === total) {
+                submitBtn.style.display = 'block';
+            } else {
+                submitBtn.style.display = 'none';
+            }
+
             if (fromUser && filled === total && lastFilledCount < total) {
                 checkAndShowModal();
             }
@@ -1217,6 +1354,21 @@
         function checkAndShowModal() {
             if (!currentPuzzleData || !currentPuzzleData.solution) return;
             
+            const modal = document.getElementById('completion-modal');
+            const title = document.getElementById('modal-title');
+            const msg = document.getElementById('modal-message');
+            const btn = document.getElementById('modal-btn');
+
+            if (isContestMode) {
+                title.textContent = "Enigmo Plenigita";
+                msg.textContent = "Vi plenigis la kradon. Ĉu vi volas sendi vian solvon?";
+                btn.textContent = "Submeti Solvon";
+                btn.className = "modal-btn success";
+                btn.onclick = () => { closeModal(); openSubmitModal(); };
+                modal.style.display = 'flex';
+                return;
+            }
+
             let isCorrect = true;
             document.querySelectorAll('.cell input').forEach(input => {
                 const r = parseInt(input.dataset.row);
@@ -1228,21 +1380,16 @@
                 }
             });
 
-            const modal = document.getElementById('completion-modal');
-            const title = document.getElementById('modal-title');
-            const msg = document.getElementById('modal-message');
-            const btn = document.getElementById('modal-btn');
-
             modal.style.display = 'flex';
             if (isCorrect) {
-                title.textContent = "Congratulations!";
-                msg.textContent = "You have successfully solved the puzzle!";
+                title.textContent = "Gratulon!";
+                msg.textContent = "Vi sukcese solvis la enigmon!";
                 btn.className = "modal-btn success";
             } else {
-                title.textContent = "Almost there...";
-                msg.textContent = "The grid is full, but there are some errors.";
+                title.textContent = "Preskaŭ...";
+                msg.textContent = "La krado estas plena, sed estas kelkaj eraroj.";
                 btn.className = "modal-btn warning";
-                btn.textContent = "Close";
+                btn.textContent = "Fermi";
                 btn.onclick = closeModal;
             }
         }
@@ -1272,6 +1419,123 @@
             closeConfirmModal();
         }
 
+        // --- Submit Modal Logic ---
+        function openSubmitModal() {
+            const puzzleRecord = puzzleStore[currentPuzzleId];
+            const targetEmail = puzzleRecord.contestEmail || 'me@example.com';
+            document.getElementById('submit-email-display').textContent = targetEmail;
+            document.getElementById('submit-modal').style.display = 'flex';
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('submit-modal').style.display = 'none';
+        }
+
+        function sendSubmission() {
+            const name = document.getElementById('submit-name').value;
+            
+            if (!name) {
+                alert("Bonvolu enigi vian nomon.");
+                return;
+            }
+
+            const puzzleRecord = puzzleStore[currentPuzzleId];
+            const targetEmail = puzzleRecord.contestEmail || 'me@example.com';
+            
+            let gridString = "";
+            for(let r=0; r<currentPuzzleData.height; r++) {
+                for(let c=0; c<currentPuzzleData.width; c++) {
+                    const input = document.querySelector(`input[data-row="${r}"][data-col="${c}"]`);
+                    if (input) gridString += (input.value || "_") + " ";
+                    else gridString += "# ";
+                }
+                gridString += "\n";
+            }
+
+            const subject = encodeURIComponent(`Konkursa Solvo: ${puzzleRecord.title}`);
+            const body = encodeURIComponent(`Nomo: ${name}\n\nSolvo:\n${gridString}`);
+            
+            window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+            closeSubmitModal();
+        }
+
+        function copySubmission() {
+            const name = document.getElementById('submit-name').value;
+            
+            if (!name) {
+                alert("Bonvolu enigi vian nomon.");
+                return;
+            }
+
+            const puzzleRecord = puzzleStore[currentPuzzleId];
+            
+            let gridString = "";
+            for(let r=0; r<currentPuzzleData.height; r++) {
+                for(let c=0; c<currentPuzzleData.width; c++) {
+                    const input = document.querySelector(`input[data-row="${r}"][data-col="${c}"]`);
+                    if (input) gridString += (input.value || "_") + " ";
+                    else gridString += "# ";
+                }
+                gridString += "\n";
+            }
+
+            const content = `Temo: Konkursa Solvo: ${puzzleRecord.title}\n\nNomo: ${name}\n\nSolvo:\n${gridString}`;
+            
+            navigator.clipboard.writeText(content).then(() => {
+                alert("Solvo kopiita al tondujo!");
+                closeSubmitModal();
+            }).catch(err => {
+                alert("Malsukcesis kopii al tondujo. Bonvolu kopii permane.");
+                console.error(err);
+            });
+        }
+
+        // --- Clues Modal Logic ---
+        function openCluesModal() {
+            const container = document.getElementById('clues-modal-list');
+            container.innerHTML = '';
+            
+            ['across', 'down'].forEach(dir => {
+                if (!currentPuzzleData.clues[dir] || currentPuzzleData.clues[dir].length === 0) return;
+                
+                const h3 = document.createElement('h3');
+                h3.textContent = dir === 'across' ? 'Horizontale' : 'Vertikale';
+                h3.style.borderBottom = '2px solid var(--text-main)';
+                h3.style.paddingBottom = '5px';
+                h3.style.marginTop = '15px';
+                h3.style.color = 'var(--text-main)';
+                container.appendChild(h3);
+                
+                currentPuzzleData.clues[dir].forEach(clue => {
+                    const div = document.createElement('div');
+                    div.className = 'clue-item';
+                    
+                    // Check if filled
+                    const mainClueEl = document.getElementById(`clue-${dir}-${clue[0]}`);
+                    if (mainClueEl && mainClueEl.classList.contains('clue-filled')) {
+                        div.classList.add('clue-filled');
+                    }
+                    
+                    div.innerHTML = `<span class="clue-number">${clue[0]}</span> ${clue[1]}`;
+                    div.style.padding = '10px 5px';
+                    div.style.borderBottom = '1px solid var(--clue-bar-border)';
+                    div.style.marginBottom = '0';
+                    
+                    div.onclick = () => {
+                        closeCluesModal();
+                        handleClueClick(clue[0], dir);
+                    };
+                    container.appendChild(div);
+                });
+            });
+            
+            document.getElementById('clues-modal').style.display = 'flex';
+        }
+
+        function closeCluesModal() {
+            document.getElementById('clues-modal').style.display = 'none';
+        }
+
         // --- Menu Logic ---
         function toggleMenu() {
             const menu = document.getElementById('game-menu');
@@ -1289,39 +1553,104 @@
         });
         
         // --- Virtual Keyboard Logic ---
-        function initKeyboard() {
+        function renderKeyboard() {
             const kb = document.getElementById('virtual-keyboard');
             if (!kb) return;
             kb.innerHTML = '';
-            const rows = [
+            
+            const rows = keyboardMode === 'default' ? [
                 ['ŝ','ĝ','e','r','t','ŭ','u','i','o','p'],
-                ['a','s','d','f','g','h','j','k','l','ĵ'],
-                ['z','ĉ','c','v','b','n','m','ĥ']
+                ['a','s','d','f','g','h','j','k','l'],
+                ['z','ĉ','c','v','b','n','m']
+            ] : [
+                ['1','2','3','4','5','6','7','8','9','0'],
+                ['q','w','y','ĵ','ĥ']
             ];
             
             rows.forEach((rowChars, i) => {
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'kb-row';
                 
+                if (keyboardMode === 'default' && i === 2) {
+                    rowDiv.appendChild(createKey('pli', null, 'kb-key wide', () => {
+                        keyboardMode = 'pli';
+                        renderKeyboard();
+                        if (virtualKeyboardEnabled) updateKeyboardState();
+                    }));
+                }
+
                 rowChars.forEach(char => {
-                    const key = document.createElement('div');
-                    key.className = 'kb-key';
-                    key.textContent = char;
-                    key.onmousedown = (e) => e.preventDefault(); // Prevent focus loss
-                    key.onclick = (e) => { e.preventDefault(); handleVirtualKey(char); };
-                    rowDiv.appendChild(key);
+                    let alt = null;
+                    if (keyboardMode === 'default') {
+                        if (char === 'j') alt = 'ĵ';
+                        if (char === 'h') alt = 'ĥ';
+                    }
+                    rowDiv.appendChild(createKey(char, alt));
                 });
                 
-                if (i === 2) {
-                    const bs = document.createElement('div');
-                    bs.className = 'kb-key wide';
-                    bs.innerHTML = '⌫';
-                    bs.onmousedown = (e) => e.preventDefault();
-                    bs.onclick = (e) => { e.preventDefault(); handleVirtualKey('Backspace'); };
-                    rowDiv.appendChild(bs);
+                if (keyboardMode === 'default' && i === 2) {
+                    rowDiv.appendChild(createKey('⌫', null, 'kb-key wide', () => handleVirtualKey('Backspace')));
                 }
                 kb.appendChild(rowDiv);
             });
+
+            if (keyboardMode === 'pli') {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'kb-row';
+                
+                rowDiv.appendChild(createKey('abc', null, 'kb-key wide', () => {
+                    keyboardMode = 'default';
+                    renderKeyboard();
+                    if (virtualKeyboardEnabled) updateKeyboardState();
+                }));
+                
+                const spacer = document.createElement('div');
+                spacer.className = 'kb-key';
+                spacer.style.visibility = 'hidden';
+                spacer.style.flex = '4';
+                rowDiv.appendChild(spacer);
+
+                rowDiv.appendChild(createKey('⌫', null, 'kb-key wide', () => handleVirtualKey('Backspace')));
+                kb.appendChild(rowDiv);
+            }
+        }
+
+        function createKey(label, altChar, className = 'kb-key', customAction = null) {
+            const key = document.createElement('div');
+            key.className = className;
+            key.textContent = label;
+            
+            let timer = null;
+            let triggered = false;
+
+            const start = (e) => {
+                if (e.cancelable) e.preventDefault();
+                triggered = false;
+                if (altChar) {
+                    timer = setTimeout(() => {
+                        handleVirtualKey(altChar);
+                        triggered = true;
+                        if (navigator.vibrate) navigator.vibrate(50);
+                    }, 400);
+                }
+            };
+
+            const end = (e) => {
+                if (e.cancelable) e.preventDefault();
+                if (timer) clearTimeout(timer);
+                if (!triggered) {
+                    if (customAction) customAction();
+                    else handleVirtualKey(label);
+                }
+            };
+
+            key.ontouchstart = start;
+            key.ontouchend = end;
+            key.onmousedown = start;
+            key.onmouseup = end;
+            key.onmouseleave = () => { if (timer) clearTimeout(timer); };
+            
+            return key;
         }
 
         function toggleKeyboard() {
@@ -1388,6 +1717,24 @@
             }
         }
 
+        function handleClueClick(number, direction) {
+            if (!currentPuzzleData) return;
+            
+            for(let r=0; r<currentPuzzleData.height; r++) {
+                for(let c=0; c<currentPuzzleData.width; c++) {
+                    const cell = currentPuzzleData.grid[r][c];
+                    let cellNum = (typeof cell === 'object' && cell !== null) ? cell.cell : cell;
+                    
+                    if (cellNum == number) {
+                        currentDirection = direction;
+                        const input = document.querySelector(`input[data-row="${r}"][data-col="${c}"]`);
+                        if (input) input.focus();
+                        return;
+                    }
+                }
+            }
+        }
+
         // --- Theme Logic ---
         function initTheme() {
             const savedTheme = localStorage.getItem('cw_theme');
@@ -1408,7 +1755,7 @@
         // Start
         initTheme();
         initList();
-        initKeyboard();
+        renderKeyboard();
         updateKeyboardState();
 
         // Handle Browser Navigation
