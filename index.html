@@ -388,7 +388,7 @@
             }
             /* Shrink grid to fit screen when keyboard is active */
             body.kb-active .crossword-grid {
-                max-width: calc((100vh - var(--kb-height, 250px) - var(--clue-height, 80px) - 110px) * (var(--grid-cols) / var(--grid-rows)));
+                max-width: calc((100dvh - var(--kb-height, 250px) - var(--clue-height, 80px) - 110px) * (var(--grid-cols) / var(--grid-rows)));
             }
             .cell input {
                 font-size: clamp(10px, calc(55vw / var(--grid-cols)), 32px);
