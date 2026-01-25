@@ -5,17 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <title>Enigmoj Puzzles</title>
     <style>
+       :root {
+            --bg-body: #f5f5f5;
+            --bg-card: #ffffff;
+            --text-main: #333333;
+            --text-secondary: #555555;
+            --text-muted: #7f8c8d;
+            --grid-border: #000000;
+            --cell-bg: #ffffff;
+            --cell-block: #000000;
+            --input-focus: #bbdefb;
+            --active-word: #e1f5fe;
+            --active-clue-bg: #fff9c4;
+            --active-clue-border: #fbc02d;
+            --clue-filled: #8c8c8c;
+            --keyboard-bg: #d1d5db;
+            --key-bg: #ffffff;
+            --key-text: #333333;
+            --key-active: #eeeeee;
+            --modal-bg: #fefefe;
+            --modal-overlay: rgba(0,0,0,0.4);
+            --progress-bg: #e0e0e0;
+            --clue-bar-bg: #f5f5f5;
+            --clue-bar-border: #cccccc;
+            --menu-bg: #ffffff;
+            --menu-hover: #f5f5f5;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #dddddd;
+            --text-secondary: #b0b0b0;
+            --text-muted: #a0a0a0;
+            --grid-border: #000000;
+            --cell-bg: #222222;
+            --cell-block: #000000;
+            --input-focus: #1565c0;
+            --active-word: #263238;
+            --active-clue-bg: #3e2723;
+            --active-clue-border: #fbc02d;
+            --clue-filled: #666666;
+            --keyboard-bg: #333333;
+            --key-bg: #424242;
+            --key-text: #f0f0f0;
+            --key-active: #616161;
+            --modal-bg: #1e1e1e;
+            --modal-overlay: rgba(0,0,0,0.7);
+            --progress-bg: #424242;
+            --clue-bar-bg: #1e1e1e;
+            --clue-bar-border: #333333;
+            --menu-bg: #1e1e1e;
+            --menu-hover: #333333;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background: #f5f5f5;
+            background: var(--bg-body);
+            color: var(--text-main);
         }
 
         /* List View Styles */
         #list-view { max-width: 800px; margin: 0 auto; padding-top: 20px; }
-        h1 { text-align: center; color: #333; margin-bottom: 30px; }
+        h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; }
         .puzzle-list { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
         
         /* View Visibility Toggles */
@@ -23,7 +78,7 @@
         #list-view.active, #game-view.active { display: block; }
 
         .puzzle-card { 
-            background: white; 
+            background: var(--bg-card); 
             padding: 25px; 
             border-radius: 12px; 
             box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
@@ -41,8 +96,8 @@
             box-sizing: border-box;
         }
         .puzzle-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.12); }
-        .puzzle-title { font-weight: bold; font-size: 1.2em; margin-bottom: 8px; color: #2c3e50; }
-        .puzzle-status { color: #7f8c8d; font-size: 0.9em; background: #eee; padding: 2px 8px; border-radius: 10px; }
+        .puzzle-title { font-weight: bold; font-size: 1.2em; margin-bottom: 8px; color: var(--text-main); }
+        .puzzle-status { color: var(--text-muted); font-size: 0.9em; background: var(--key-active); padding: 2px 8px; border-radius: 10px; }
         .puzzle-status.solved { background: #e8f5e9; color: #2e7d32; }
 
         /* Game View Styles */
@@ -56,8 +111,8 @@
         #grid-container { user-select: none; }
         .crossword-grid {
             display: grid;
-            background-color: #000;
-            border: 3px solid #000;
+            background-color: var(--grid-border);
+            border: 3px solid var(--grid-border);
             gap: 1px;
             --cell-size: max(36px, 600px / var(--grid-cols));
             grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
@@ -66,12 +121,12 @@
             width: fit-content;
         }
         .cell {
-            background-color: #fff;
+            background-color: var(--cell-bg);
             position: relative;
             width: 100%;
             height: 100%;
         }
-        .cell.block { background-color: #000; }
+        .cell.block { background-color: var(--cell-block); }
         .cell-number {
             position: absolute;
             top: 1px;
@@ -80,6 +135,7 @@
             line-height: 1;
             pointer-events: none;
             z-index: 1;
+            color: var(--text-main);
         }
         .cell input {
             position: absolute;
@@ -96,13 +152,13 @@
             padding: 0;
             padding-top: 8px;
             font-weight: bold;
-            color: #333;
+            color: var(--text-main);
             caret-color: transparent;
             box-sizing: border-box;
             touch-action: pan-y;
         }
-        .cell input:focus { background-color: #bbdefb; }
-        .cell.active-word { background-color: #e1f5fe; }
+        .cell input:focus { background-color: var(--input-focus); }
+        .cell.active-word { background-color: var(--active-word); }
 
         #clues-container {
             flex: 1;
@@ -112,27 +168,28 @@
             overflow-y: auto;
         }
         .clue-column { flex: 1; }
-        .clue-column h3 { border-bottom: 2px solid #333; padding-bottom: 5px; }
+        .clue-column h3 { border-bottom: 2px solid var(--text-main); padding-bottom: 5px; color: var(--text-main); }
         .clue-item {
             margin-bottom: 6px;
             font-size: 14px;
             line-height: 1.4;
             cursor: pointer;
+            color: var(--text-main);
         }
         .clue-number { font-weight: bold; margin-right: 5px; }
         .clue-item.active-clue {
-            background-color: #fff9c4;
-            border-left: 4px solid #fbc02d;
+            background-color: var(--active-clue-bg);
+            border-left: 4px solid var(--active-clue-border);
             padding-left: 4px;
         }
         .clue-item.clue-filled {
-            color: #8c8c8c;
+            color: var(--clue-filled);
         }
 
         .back-btn {
             background: none;
             border: none;
-            color: #333;
+            color: var(--text-main);
             font-weight: bold;
             font-size: 1.1em;
             cursor: pointer;
@@ -159,14 +216,14 @@
             font-size: 1.8em;
             cursor: pointer;
             padding: 5px 10px;
-            color: #333;
+            color: var(--text-main);
         }
         .dropdown-menu {
             display: none;
             position: absolute;
             right: 0;
             top: 100%;
-            background-color: #fff;
+            background-color: var(--menu-bg);
             min-width: 180px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             z-index: 100;
@@ -182,11 +239,11 @@
             background: none;
             cursor: pointer;
             font-size: 1em;
-            color: #333;
-            border-bottom: 1px solid #eee;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--grid-border);
         }
         .menu-item:last-child { border-bottom: none; }
-        .menu-item:hover { background-color: #f5f5f5; }
+        .menu-item:hover { background-color: var(--menu-hover); }
         
         .cell input.correct { color: #2e7d32; }
         .cell input.incorrect { color: #c62828; }
@@ -194,7 +251,7 @@
         #progress-container {
             width: 100%;
             height: 4px;
-            background-color: #e0e0e0;
+            background-color: var(--progress-bg);
             margin-bottom: 20px;
             border-radius: 2px;
             overflow: hidden;
@@ -227,7 +284,7 @@
             border: none;
             font-size: 1.5em;
             cursor: pointer;
-            color: #555;
+            color: var(--text-secondary);
             padding: 0 10px;
             user-select: none;
             display: none;
@@ -235,7 +292,7 @@
             justify-content: center;
             visibility: hidden;
         }
-        .clue-nav:hover { color: #000; background-color: rgba(0,0,0,0.05); border-radius: 4px; }
+        .clue-nav:hover { color: var(--text-main); background-color: rgba(0,0,0,0.05); border-radius: 4px; }
 
         #consent-banner {
             position: fixed;
@@ -308,7 +365,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: #d1d5db;
+            background: var(--keyboard-bg);
             padding: 5px;
             padding-bottom: calc(5px + env(safe-area-inset-bottom, 0px));
             z-index: 150;
@@ -319,7 +376,7 @@
         #virtual-keyboard.active { display: flex; }
         .kb-row { display: flex; justify-content: center; gap: 4px; width: 100%; }
         .kb-key {
-            background: #fff;
+            background: var(--key-bg);
             border-radius: 4px;
             padding: 10px 0;
             flex: 1;
@@ -329,11 +386,11 @@
             user-select: none;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
             font-size: 1.1em;
-            color: #333;
+            color: var(--key-text);
             touch-action: manipulation;
         }
-        .kb-key:active { background: #eee; transform: translateY(1px); }
-        .kb-key.wide { flex: 1.5; background: #e0e0e0; }
+        .kb-key:active { background: var(--key-active); transform: translateY(1px); }
+        .kb-key.wide { flex: 1.5; background: var(--key-active); }
 
         /* Adjustments when keyboard is active */
         body.kb-active {
@@ -372,8 +429,8 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
-                background: #f5f5f5;
-                border-top: 1px solid #ccc;
+                background: var(--clue-bar-bg);
+                border-top: 1px solid var(--clue-bar-border);
                 z-index: 100;
                 box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
                 margin: 0;
@@ -389,6 +446,9 @@
             /* Shrink grid to fit screen when keyboard is active */
             body.kb-active .crossword-grid {
                 max-width: calc((100dvh - var(--kb-height, 250px) - var(--clue-height, 80px) - 110px) * (var(--grid-cols) / var(--grid-rows)));
+            }
+            body.kb-active .cell-number {
+                font-size: clamp(6px, calc(15dvh / var(--grid-rows)), 10px);
             }
             .cell input {
                 font-size: clamp(10px, calc(55vw / var(--grid-cols)), 32px);
@@ -421,6 +481,7 @@
                     <button class="menu-item" onclick="checkPuzzle(); toggleMenu()">Check Puzzle</button>
                     <button class="menu-item" onclick="clearChecks(); toggleMenu()">Clear Checks</button>
                     <button class="menu-item" onclick="toggleKeyboard(); toggleMenu()">Toggle Keyboard</button>
+                    <button class="menu-item" onclick="toggleTheme(); toggleMenu()">Toggle Dark Mode</button>
                 </div>
             </div>
         </div>
@@ -1325,7 +1386,25 @@
             }
         }
 
+        // --- Theme Logic ---
+        function initTheme() {
+            const savedTheme = localStorage.getItem('cw_theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('cw_theme', newTheme);
+        }
+
         // Start
+        initTheme();
         initList();
         initKeyboard();
         updateKeyboardState();
