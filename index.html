@@ -17,6 +17,11 @@
         #list-view { max-width: 800px; margin: 0 auto; padding-top: 20px; }
         h1 { text-align: center; color: #333; margin-bottom: 30px; }
         .puzzle-list { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        
+        /* View Visibility Toggles */
+        #list-view, #game-view { display: none; }
+        #list-view.active, #game-view.active { display: block; }
+
         .puzzle-card { 
             background: white; 
             padding: 25px; 
@@ -41,8 +46,6 @@
         .puzzle-status.solved { background: #e8f5e9; color: #2e7d32; }
 
         /* Game View Styles */
-        #game-view { display: none; }
-        
         #game-layout {
             display: flex;
             gap: 30px;
@@ -95,7 +98,6 @@
             caret-color: transparent;
             box-sizing: border-box;
         }
-        /* inputmode="none" hides the native keyboard on mobile */
         .cell input:focus { background-color: #bbdefb; }
         .cell.active-word { background-color: #e1f5fe; }
 
@@ -272,95 +274,21 @@
         .modal-btn.secondary { background-color: #757575; color: white; }
         .modal-btn.secondary:hover { background-color: #616161; }
 
-        /* Virtual Keyboard Styles */
-        #virtual-keyboard {
-            display: none;
-            background: #d1d5db;
-            padding: 8px 4px;
-            flex-direction: column;
-            gap: 6px;
-            width: 100%;
-            box-sizing: border-box;
-            flex-shrink: 0;
-        }
-        .kb-row {
-            display: flex;
-            justify-content: center;
-            gap: 4px;
-            width: 100%;
-        }
-        .kb-key {
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            font-weight: bold;
-            font-size: 1.2em;
-            padding: 12px 0;
-            flex: 1;
-            text-align: center;
-            cursor: pointer;
-            user-select: none;
-            color: #333;
-            touch-action: manipulation;
-        }
-        .kb-key:active { background: #e5e7eb; transform: translateY(1px); }
-        .kb-key.wide { flex: 1.5; background: #e5e7eb; }
-
         @media (max-width: 768px) {
-            html, body {
-                height: 100%;
-                overflow: hidden;
-                padding: 0;
-                margin: 0;
-            }
-            #game-view {
-                display: flex !important; /* Override JS inline style */
-                flex-direction: column;
-                height: 100dvh;
-                width: 100vw;
-                position: fixed;
-                top: 0;
-                left: 0;
-                background: #f5f5f5;
-                z-index: 500;
-            }
             .game-header {
                 flex-wrap: wrap;
                 gap: 10px;
-                padding: 10px;
-                flex-shrink: 0;
-                background: #fff;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-                margin-bottom: 0;
             }
-            #progress-container { margin-bottom: 0; flex-shrink: 0; }
             .crossword-grid {
-                /* Reset to fixed size for scaling logic */
-                grid-template-columns: repeat(var(--grid-cols), 36px);
-                grid-template-rows: repeat(var(--grid-rows), 36px);
-                width: fit-content;
-                margin: auto;
+                grid-template-columns: repeat(var(--grid-cols), 1fr);
+                grid-template-rows: auto;
+                width: 100%;
+                max-width: 600px;
             }
-            .cell { width: 36px; height: 36px; }
+            .cell { width: auto; height: auto; aspect-ratio: 1 / 1; }
             #clues-container { display: none; }
-            #game-layout { 
-                display: flex; 
-                flex: 1; 
-                overflow: hidden; 
-                align-items: center; 
-                justify-content: center;
-                background: #e0e0e0;
-                margin: 0;
-                width: 100%;
-            }
-            #grid-container {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-            }
+            #game-layout { display: block; }
+            body { padding: 10px; }
             .game-header h2 { 
                 font-size: 1.5em !important;
                 width: 100%;
@@ -368,26 +296,13 @@
                 order: -1;
             }
             .back-btn { font-size: 0.9em; padding: 6px 12px; }
-            #current-clue-display { 
-                font-size: 1em; 
-                margin: 0;
-                padding: 10px; 
-                flex-shrink: 0;
-                background: #f5f5f5;
-                border-bottom: 1px solid #ccc;
-                min-height: 3.5em;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            #virtual-keyboard { display: flex; }
-            #consent-banner { bottom: auto; top: 0; } /* Move banner out of keyboard way if needed */
+            #current-clue-display { font-size: 1em; margin-bottom: 10px; padding: 10px; }
         }
     </style>
 </head>
 <body>
     <!-- LIST VIEW -->
-    <div id="list-view">
+    <div id="list-view" class="active">
         <h1>Enigmoj</h1>
         <div class="puzzle-list" id="puzzle-list"></div>
     </div>
@@ -423,9 +338,6 @@
             <div id="progress-bar"></div>
         </div>
         <div id="current-clue-display"></div>
-        
-        <!-- Virtual Keyboard -->
-        <div id="virtual-keyboard"></div>
     </div>
 
     <div id="consent-banner">
@@ -563,8 +475,8 @@
         }
 
         function showList(updateUrl = true) {
-            gameView.style.display = 'none';
-            listView.style.display = 'block';
+            gameView.classList.remove('active');
+            listView.classList.add('active');
             initList(); // Refresh statuses
             if (updateUrl) {
                 history.pushState(null, '', window.location.pathname);
@@ -588,15 +500,12 @@
             loadProgress();
             updateProgressBar();
             
-            listView.style.display = 'none';
-            gameView.style.display = 'block';
+            listView.classList.remove('active');
+            gameView.classList.add('active');
 
             // Calculate max height for clues to prevent layout shifts
             adjustClueDisplayHeight();
             
-            // Fit grid to screen on mobile
-            setTimeout(fitGridToScreen, 50);
-
             if (updateUrl) {
                 history.pushState({id: id}, '', '?id=' + id);
             }
@@ -646,7 +555,6 @@
                         const input = document.createElement('input');
                         input.dataset.row = rIndex;
                         input.dataset.col = cIndex;
-                        input.setAttribute('inputmode', 'none'); // Disable native keyboard on mobile
                         cell.appendChild(input);
                     }
                     gridEl.appendChild(cell);
@@ -1186,85 +1094,8 @@
             }
         });
         
-        // --- Virtual Keyboard & Scaling ---
-        function initKeyboard() {
-            const kb = document.getElementById('virtual-keyboard');
-            if (!kb) return;
-            kb.innerHTML = '';
-            const rows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
-            
-            rows.forEach((rowStr, i) => {
-                const rowDiv = document.createElement('div');
-                rowDiv.className = 'kb-row';
-                
-                rowStr.split('').forEach(char => {
-                    const key = document.createElement('div');
-                    key.className = 'kb-key';
-                    key.textContent = char;
-                    // Prevent default to keep focus on input
-                    key.onmousedown = (e) => e.preventDefault();
-                    key.ontouchstart = (e) => { e.preventDefault(); handleVirtualKey(char); };
-                    key.onclick = (e) => { e.preventDefault(); handleVirtualKey(char); };
-                    rowDiv.appendChild(key);
-                });
-                
-                if (i === 2) {
-                    const bs = document.createElement('div');
-                    bs.className = 'kb-key wide';
-                    bs.innerHTML = '⌫';
-                    bs.onmousedown = (e) => e.preventDefault();
-                    bs.ontouchstart = (e) => { e.preventDefault(); handleVirtualKey('Backspace'); };
-                    bs.onclick = (e) => { e.preventDefault(); handleVirtualKey('Backspace'); };
-                    rowDiv.appendChild(bs);
-                }
-                kb.appendChild(rowDiv);
-            });
-        }
-
-        function handleVirtualKey(key) {
-            if (!lastActiveCell) return;
-            
-            if (key === 'Backspace') {
-                const r = parseInt(lastActiveCell.dataset.row);
-                const c = parseInt(lastActiveCell.dataset.col);
-                if (lastActiveCell.value === '') {
-                    if (currentDirection === 'across') moveFocus(r, c - 1) || jumpToPreviousClue(r, c, 'across');
-                    else moveFocus(r - 1, c) || jumpToPreviousClue(r, c, 'down');
-                } else {
-                    lastActiveCell.value = '';
-                    saveProgress();
-                    updateProgressBar(true);
-                }
-            } else {
-                lastActiveCell.value = key;
-                lastActiveCell.classList.remove('correct', 'incorrect');
-                saveProgress();
-                updateProgressBar(true);
-                
-                const r = parseInt(lastActiveCell.dataset.row);
-                const c = parseInt(lastActiveCell.dataset.col);
-                if (currentDirection === 'across') moveFocus(r, c + 1) || jumpToNextClue(r, c, 'across');
-                else moveFocus(r + 1, c) || jumpToNextClue(r, c, 'down');
-            }
-        }
-
-        function fitGridToScreen() {
-            const container = document.getElementById('grid-container');
-            const grid = container.querySelector('.crossword-grid');
-            if (!grid || !container || window.innerWidth > 768) {
-                if (grid) grid.style.transform = 'none';
-                return;
-            }
-            
-            grid.style.transform = 'none';
-            const scale = Math.min(container.clientWidth / grid.scrollWidth, container.clientHeight / grid.scrollHeight, 1) * 0.96;
-            grid.style.transformOrigin = 'center center';
-            grid.style.transform = `scale(${scale})`;
-        }
-
         // Start
         initList();
-        initKeyboard();
 
         // Handle Browser Navigation
         window.addEventListener('popstate', (e) => {
@@ -1298,9 +1129,8 @@
 
         // Handle resize to update clue display height
         window.addEventListener('resize', () => {
-            if (gameView.style.display !== 'none') {
+            if (gameView.classList.contains('active')) {
                 adjustClueDisplayHeight();
-                fitGridToScreen();
             }
         });
     </script>
