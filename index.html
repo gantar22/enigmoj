@@ -78,6 +78,7 @@
             font-size: 10px;
             line-height: 1;
             pointer-events: none;
+            z-index: 1;
         }
         .cell input {
             position: absolute;
@@ -203,12 +204,32 @@
             transition: width 0.3s ease, background-color 0.3s ease;
         }
 
+        #clue-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
         #current-clue-display {
             text-align: center;
             font-size: .9em;
-            margin-bottom: 20px;
             min-height: 1.4em;
+            flex: 1;
         }
+        .clue-nav {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #555;
+            padding: 0 10px;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .clue-nav:hover { color: #000; background-color: rgba(0,0,0,0.05); border-radius: 4px; }
 
         #consent-banner {
             position: fixed;
@@ -274,10 +295,49 @@
         .modal-btn.secondary { background-color: #757575; color: white; }
         .modal-btn.secondary:hover { background-color: #616161; }
 
+        /* Virtual Keyboard Styles */
+        #virtual-keyboard {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #d1d5db;
+            padding: 5px;
+            padding-bottom: calc(5px + env(safe-area-inset-bottom, 0px));
+            z-index: 150;
+            flex-direction: column;
+            gap: 5px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        #virtual-keyboard.active { display: flex; }
+        .kb-row { display: flex; justify-content: center; gap: 4px; width: 100%; }
+        .kb-key {
+            background: #fff;
+            border-radius: 4px;
+            padding: 10px 0;
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            font-size: 1.1em;
+            color: #333;
+            touch-action: manipulation;
+        }
+        .kb-key:active { background: #eee; transform: translateY(1px); }
+        .kb-key.wide { flex: 1.5; background: #e0e0e0; }
+
+        /* Adjustments when keyboard is active */
+        body.kb-active {
+            padding-bottom: calc(20px + var(--kb-height, 250px)) !important;
+        }
+
         @media (max-width: 768px) {
             .game-header {
-                flex-wrap: wrap;
-                gap: 10px;
+                flex-wrap: nowrap;
+                gap: 5px;
             }
             .crossword-grid {
                 grid-template-columns: repeat(var(--grid-cols), 1fr);
@@ -290,14 +350,17 @@
             #game-layout { display: block; }
             body { padding: 10px; padding-bottom: 100px; }
             .game-header h2 { 
-                font-size: 1.5em !important;
-                width: 100%;
+                font-size: 1.1em !important;
+                width: auto;
                 text-align: center;
-                order: -1;
+                order: 0;
+                flex: 1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .back-btn { font-size: 0.9em; padding: 6px 12px; }
-            #current-clue-display { 
-                font-size: .9em; 
+            #clue-bar {
                 padding: 15px 10px calc(15px + env(safe-area-inset-bottom, 0px));
                 position: fixed;
                 bottom: 0;
@@ -308,6 +371,14 @@
                 z-index: 100;
                 box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
                 margin: 0;
+                transition: bottom 0.2s;
+            }
+            #current-clue-display {
+                font-size: .9em;
+                margin: 0;
+            }
+            body.kb-active #clue-bar {
+                bottom: var(--kb-height, 0px);
             }
         }
     </style>
@@ -322,7 +393,7 @@
     <!-- GAME VIEW -->
     <div id="game-view">
         <div class="game-header">
-            <button class="back-btn" onclick="showList()">← Back to Puzzles</button>
+            <button class="back-btn" onclick="showList()">←</button>
             <h2 id="game-title" style="margin: 0; font-size: 2.5em; color: #333;"></h2>
             <div class="menu-container">
                 <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
@@ -330,13 +401,18 @@
                     <button class="menu-item" onclick="revealWord(); toggleMenu()">Reveal Word</button>
                     <button class="menu-item" onclick="checkPuzzle(); toggleMenu()">Check Puzzle</button>
                     <button class="menu-item" onclick="clearChecks(); toggleMenu()">Clear Checks</button>
+                    <button class="menu-item" onclick="toggleKeyboard(); toggleMenu()">Toggle Keyboard</button>
                 </div>
             </div>
         </div>
         <div id="progress-container">
             <div id="progress-bar"></div>
         </div>
-        <div id="current-clue-display"></div>
+        <div id="clue-bar">
+            <button class="clue-nav" onclick="navigateClue(-1)">&lt;</button>
+            <div id="current-clue-display"></div>
+            <button class="clue-nav" onclick="navigateClue(1)">&gt;</button>
+        </div>
         <div id="game-layout">
             <div id="grid-container"></div>
             <div id="clues-container">
@@ -350,6 +426,9 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Virtual Keyboard -->
+        <div id="virtual-keyboard"></div>
     </div>
 
     <div id="consent-banner">
@@ -415,6 +494,7 @@
         let justFocused = false;
         let lastActiveCell = null;
         let lastFilledCount = 0;
+        let virtualKeyboardEnabled = localStorage.getItem('cw_virtual_keyboard') === 'true';
 
         // Initialize List
         function initList() {
@@ -517,6 +597,11 @@
 
             // Calculate max height for clues to prevent layout shifts
             adjustClueDisplayHeight();
+
+            // Recalculate keyboard height now that the view is visible
+            if (virtualKeyboardEnabled) {
+                updateKeyboardState();
+            }
             
             if (updateUrl) {
                 history.pushState({id: id}, '', '?id=' + id);
@@ -567,6 +652,7 @@
                         const input = document.createElement('input');
                         input.dataset.row = rIndex;
                         input.dataset.col = cIndex;
+                        if (virtualKeyboardEnabled) input.setAttribute('inputmode', 'none');
                         cell.appendChild(input);
                     }
                     gridEl.appendChild(cell);
@@ -1106,8 +1192,110 @@
             }
         });
         
+        // --- Virtual Keyboard Logic ---
+        function initKeyboard() {
+            const kb = document.getElementById('virtual-keyboard');
+            if (!kb) return;
+            kb.innerHTML = '';
+            const rows = [
+                ['ŝ','ĝ','e','r','t','ŭ','u','i','o','p'],
+                ['a','s','d','f','g','h','j','k','l','ĵ'],
+                ['z','x','c','v','b','n','m','ĥ']
+            ];
+            
+            rows.forEach((rowChars, i) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'kb-row';
+                
+                rowChars.forEach(char => {
+                    const key = document.createElement('div');
+                    key.className = 'kb-key';
+                    key.textContent = char;
+                    key.onmousedown = (e) => e.preventDefault(); // Prevent focus loss
+                    key.onclick = (e) => { e.preventDefault(); handleVirtualKey(char); };
+                    rowDiv.appendChild(key);
+                });
+                
+                if (i === 2) {
+                    const bs = document.createElement('div');
+                    bs.className = 'kb-key wide';
+                    bs.innerHTML = '⌫';
+                    bs.onmousedown = (e) => e.preventDefault();
+                    bs.onclick = (e) => { e.preventDefault(); handleVirtualKey('Backspace'); };
+                    rowDiv.appendChild(bs);
+                }
+                kb.appendChild(rowDiv);
+            });
+        }
+
+        function toggleKeyboard() {
+            virtualKeyboardEnabled = !virtualKeyboardEnabled;
+            localStorage.setItem('cw_virtual_keyboard', virtualKeyboardEnabled);
+            updateKeyboardState();
+        }
+
+        function updateKeyboardState() {
+            const kb = document.getElementById('virtual-keyboard');
+            const body = document.body;
+            
+            if (virtualKeyboardEnabled) {
+                kb.classList.add('active');
+                body.classList.add('kb-active');
+                document.querySelectorAll('.cell input').forEach(el => el.setAttribute('inputmode', 'none'));
+                
+                const height = kb.offsetHeight;
+                document.documentElement.style.setProperty('--kb-height', height + 'px');
+            } else {
+                kb.classList.remove('active');
+                body.classList.remove('kb-active');
+                document.querySelectorAll('.cell input').forEach(el => el.removeAttribute('inputmode'));
+                document.documentElement.style.removeProperty('--kb-height');
+            }
+        }
+
+        function handleVirtualKey(key) {
+            if (!lastActiveCell) return;
+            
+            if (key === 'Backspace') {
+                const r = parseInt(lastActiveCell.dataset.row);
+                const c = parseInt(lastActiveCell.dataset.col);
+                if (lastActiveCell.value === '') {
+                    if (currentDirection === 'across') moveFocus(r, c - 1) || jumpToPreviousClue(r, c, 'across');
+                    else moveFocus(r - 1, c) || jumpToPreviousClue(r, c, 'down');
+                } else {
+                    lastActiveCell.value = '';
+                    saveProgress();
+                    updateProgressBar(true);
+                }
+            } else {
+                lastActiveCell.value = key;
+                lastActiveCell.classList.remove('correct', 'incorrect');
+                saveProgress();
+                updateProgressBar(true);
+                
+                const r = parseInt(lastActiveCell.dataset.row);
+                const c = parseInt(lastActiveCell.dataset.col);
+                if (currentDirection === 'across') moveFocus(r, c + 1) || jumpToNextClue(r, c, 'across');
+                else moveFocus(r + 1, c) || jumpToNextClue(r, c, 'down');
+            }
+        }
+
+        function navigateClue(direction) {
+            if (!lastActiveCell) return;
+            const r = parseInt(lastActiveCell.dataset.row);
+            const c = parseInt(lastActiveCell.dataset.col);
+            
+            if (direction === 1) {
+                jumpToNextClue(r, c, currentDirection);
+            } else {
+                jumpToPreviousClue(r, c, currentDirection);
+            }
+        }
+
         // Start
         initList();
+        initKeyboard();
+        updateKeyboardState();
 
         // Handle Browser Navigation
         window.addEventListener('popstate', (e) => {
@@ -1143,6 +1331,7 @@
         window.addEventListener('resize', () => {
             if (gameView.classList.contains('active')) {
                 adjustClueDisplayHeight();
+                if (virtualKeyboardEnabled) updateKeyboardState();
             }
         });
     </script>
