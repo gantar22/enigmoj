@@ -203,6 +203,10 @@
         #consent-banner button:hover { background: #2ecc71; }
 
         @media (max-width: 768px) {
+            /* Ensure sticky positioning works by preventing overflow clipping on ancestors */
+            html, body {
+                overflow: visible;
+            }
             .game-header {
                 flex-wrap: wrap;
                 gap: 10px;
@@ -228,6 +232,7 @@
                 font-size: 1em; 
                 margin-bottom: 10px; 
                 padding: 10px; 
+                position: -webkit-sticky; /* For Safari */
                 position: sticky; 
                 top: 0; 
                 background-color: #f5f5f5; 
@@ -313,8 +318,32 @@
                 btn.onclick = () => loadGame(key);
                 
                 // Check progress
-                const saved = localStorage.getItem('cw_progress_' + key);
-                const status = saved ? 'In Progress' : 'Start';
+                const savedJson = localStorage.getItem('cw_progress_' + key);
+                let status = 'Start';
+
+                if (savedJson) {
+                    const savedState = JSON.parse(savedJson);
+                    const filledCount = Object.keys(savedState).length;
+                    
+                    let totalCells = 0;
+                    if (p.data && p.data.puzzle) {
+                        p.data.puzzle.forEach(row => {
+                            row.forEach(cell => {
+                                let isBlock = cell === '#' || cell === null;
+                                if (typeof cell === 'object' && cell !== null && cell.style && cell.style.shapebg === 'circle') {
+                                    isBlock = false; 
+                                }
+                                if (!isBlock) totalCells++;
+                            });
+                        });
+                    }
+
+                    if (totalCells > 0 && filledCount >= totalCells) {
+                        status = 'Done';
+                    } else {
+                        status = 'In Progress';
+                    }
+                }
 
                 btn.innerHTML = `
                     <div class="puzzle-title">${p.title}</div>
