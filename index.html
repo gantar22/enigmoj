@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <title>Enigmoj Puzzles</title>
     <style>
         body {
@@ -205,7 +205,7 @@
 
         #current-clue-display {
             text-align: center;
-            font-size: 1.1em;
+            font-size: .9em;
             margin-bottom: 20px;
             min-height: 1.4em;
         }
@@ -297,8 +297,8 @@
             }
             .back-btn { font-size: 0.9em; padding: 6px 12px; }
             #current-clue-display { 
-                font-size: 1em; 
-                padding: 15px 10px;
+                font-size: .9em; 
+                padding: 15px 10px calc(15px + env(safe-area-inset-bottom, 0px));
                 position: fixed;
                 bottom: 0;
                 left: 0;
@@ -753,7 +753,7 @@
                 
                 const clueData = currentPuzzleData.clues[currentDirection].find(x => x[0] == clueNum);
                 if (clueData) {
-                    display.innerHTML = `${clueNum} ${currentDirection.toUpperCase()}: ${clueData[1]}`;
+                    display.innerHTML = `${clueNum}${currentDirection.charAt(0).toUpperCase()}: ${clueData[1]}`;
                 }
             } else {
                 display.textContent = '';
@@ -814,7 +814,7 @@
                 if (clues) {
                     clues.forEach(clue => {
                         const div = document.createElement('div');
-                        div.innerHTML = `${clue[0]} ${dir.toUpperCase()}: ${clue[1]}`;
+                        div.innerHTML = `${clue[0]}${dir.charAt(0).toUpperCase()}: ${clue[1]}`;
                         display.appendChild(div);
                     });
                 }
