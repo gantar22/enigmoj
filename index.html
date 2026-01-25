@@ -59,23 +59,24 @@
             background-color: #000;
             border: 3px solid #000;
             gap: 1px;
-            grid-template-columns: repeat(var(--grid-cols), 36px);
-            grid-template-rows: repeat(var(--grid-rows), 36px);
+            --cell-size: max(36px, 600px / var(--grid-cols));
+            grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+            grid-template-rows: repeat(var(--grid-rows), var(--cell-size));
             margin: 0 auto;
             width: fit-content;
         }
         .cell {
             background-color: #fff;
             position: relative;
-            width: 36px;
-            height: 36px;
+            width: 100%;
+            height: 100%;
         }
         .cell.block { background-color: #000; }
         .cell-number {
             position: absolute;
             top: 1px;
             left: 2px;
-            font-size: 10px;
+            font-size: calc(var(--cell-size) * 0.28);
             line-height: 1;
             pointer-events: none;
             z-index: 1;
@@ -88,7 +89,7 @@
             height: 100%;
             border: none;
             text-align: center;
-            font-size: clamp(12px, 5vw, 22px);
+            font-size: calc(var(--cell-size) * 0.55);
             text-transform: uppercase;
             background: transparent;
             outline: none;
@@ -98,6 +99,7 @@
             color: #333;
             caret-color: transparent;
             box-sizing: border-box;
+            touch-action: pan-y;
         }
         .cell input:focus { background-color: #bbdefb; }
         .cell.active-word { background-color: #e1f5fe; }
@@ -216,6 +218,9 @@
             font-size: .9em;
             min-height: 1.4em;
             flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .clue-nav {
             background: none;
@@ -225,9 +230,10 @@
             color: #555;
             padding: 0 10px;
             user-select: none;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
+            visibility: hidden;
         }
         .clue-nav:hover { color: #000; background-color: rgba(0,0,0,0.05); border-radius: 4px; }
 
@@ -379,6 +385,19 @@
             }
             body.kb-active #clue-bar {
                 bottom: var(--kb-height, 0px);
+            }
+            /* Shrink grid to fit screen when keyboard is active */
+            body.kb-active .crossword-grid {
+                max-width: calc((100vh - var(--kb-height, 250px) - var(--clue-height, 80px) - 110px) * (var(--grid-cols) / var(--grid-rows)));
+            }
+            .cell input {
+                font-size: clamp(10px, calc(55vw / var(--grid-cols)), 32px);
+            }
+            .cell-number {
+                font-size: clamp(8px, calc(25vw / var(--grid-cols)), 20px);
+            }
+            .clue-nav {
+                display: flex;
             }
         }
     </style>
@@ -587,6 +606,8 @@
             document.getElementById('game-title').textContent = record.title;
             lastFilledCount = 0;
             lastActiveCell = null;
+            document.getElementById('current-clue-display').textContent = '';
+            document.querySelectorAll('.clue-nav').forEach(btn => btn.style.visibility = 'hidden');
             
             renderPuzzle(currentPuzzleData);
             loadProgress();
@@ -827,6 +848,7 @@
             highlightWord(r, c, currentDirection);
             
             const display = document.getElementById('current-clue-display');
+            const navButtons = document.querySelectorAll('.clue-nav');
             
             if (clueNum) {
                 const clueEl = document.getElementById(`clue-${currentDirection}-${clueNum}`);
@@ -839,10 +861,12 @@
                 
                 const clueData = currentPuzzleData.clues[currentDirection].find(x => x[0] == clueNum);
                 if (clueData) {
-                    display.innerHTML = `${clueNum}${currentDirection.charAt(0).toUpperCase()}: ${clueData[1]}`;
+                    display.innerHTML = `<span>${clueNum}${currentDirection.charAt(0).toUpperCase()}: ${clueData[1]}</span>`;
                 }
+                navButtons.forEach(btn => btn.style.visibility = 'visible');
             } else {
                 display.textContent = '';
+                navButtons.forEach(btn => btn.style.visibility = 'hidden');
             }
         }
 
@@ -890,9 +914,12 @@
         function adjustClueDisplayHeight() {
             if (!currentPuzzleData) return;
             const display = document.getElementById('current-clue-display');
+            const clueBar = document.getElementById('clue-bar');
             const originalText = display.innerHTML;
+            const originalDisplay = display.style.display;
             
             display.style.height = ''; 
+            display.style.display = 'block';
             display.innerHTML = '';
             
             ['across', 'down'].forEach(dir => {
@@ -912,7 +939,13 @@
             });
             
             display.innerHTML = originalText;
+            display.style.display = originalDisplay;
             display.style.height = maxH + 'px';
+
+            if (clueBar) {
+                const fullHeight = clueBar.offsetHeight;
+                document.documentElement.style.setProperty('--clue-height', fullHeight + 'px');
+            }
         }
 
         function checkPuzzle() {
@@ -1200,7 +1233,7 @@
             const rows = [
                 ['ŝ','ĝ','e','r','t','ŭ','u','i','o','p'],
                 ['a','s','d','f','g','h','j','k','l','ĵ'],
-                ['z','x','c','v','b','n','m','ĥ']
+                ['z','ĉ','c','v','b','n','m','ĥ']
             ];
             
             rows.forEach((rowChars, i) => {
