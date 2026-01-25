@@ -395,9 +395,10 @@
         .kb-row { display: flex; justify-content: center; gap: 4px; width: 100%; }
         .kb-key {
             background: var(--key-bg);
+            position: relative;
             border-radius: 4px;
             padding: 10px 0;
-            flex: 1;
+            flex: 0 0 calc(10% - 4px);
             text-align: center;
             font-weight: bold;
             cursor: pointer;
@@ -408,7 +409,32 @@
             touch-action: manipulation;
         }
         .kb-key:active { background: var(--key-active); transform: translateY(1px); }
-        .kb-key.wide { flex: 1.5; background: var(--key-active); }
+        .kb-key.wide { flex: 0 0 calc(15% - 6px); background: var(--key-active); }
+
+        /* Popup Menu Styles */
+        .kb-popup {
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--key-bg);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex;
+            padding: 5px;
+            gap: 4px;
+            z-index: 200;
+        }
+        .kb-popup-key {
+            width: 32px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: var(--bg-body);
+            border-radius: 4px;
+            color: var(--text-main);
+        }
+        .kb-popup-key.selected { background: var(--input-focus); color: #fff; }
 
         /* Adjustments when keyboard is active */
         body.kb-active {
@@ -631,7 +657,12 @@
         let justFocused = false;
         let lastActiveCell = null;
         let lastFilledCount = 0;
-        let virtualKeyboardEnabled = localStorage.getItem('cw_virtual_keyboard') === 'true';
+        let virtualKeyboardEnabled;
+        if (localStorage.getItem('cw_virtual_keyboard') !== null) {
+            virtualKeyboardEnabled = localStorage.getItem('cw_virtual_keyboard') === 'true';
+        } else {
+            virtualKeyboardEnabled = window.matchMedia("(max-width: 768px)").matches;
+        }
         let isContestMode = false;
         let keyboardMode = 'default';
 
@@ -1553,6 +1584,20 @@
         });
         
         // --- Virtual Keyboard Logic ---
+        const ALT_MAP = {
+            'a': ['a', 'à', 'á', 'â', 'ä'],
+            'c': ['c', 'ĉ', 'ç'],
+            'e': ['e', 'é', 'è', 'ê', 'ë'],
+            'g': ['g', 'ĝ'],
+            'h': ['h', 'ĥ'],
+            'i': ['i', 'ì', 'í', 'î', 'ï'],
+            'j': ['j', 'ĵ'],
+            'n': ['n', 'ñ'],
+            'o': ['o', 'ò', 'ó', 'ô', 'ö'],
+            's': ['s', 'ŝ'],
+            'u': ['u', 'ŭ', 'ù', 'ú', 'û', 'ü']
+        };
+
         function renderKeyboard() {
             const kb = document.getElementById('virtual-keyboard');
             if (!kb) return;
@@ -1572,7 +1617,7 @@
                 rowDiv.className = 'kb-row';
                 
                 if (keyboardMode === 'default' && i === 2) {
-                    rowDiv.appendChild(createKey('pli', null, 'kb-key wide', () => {
+                    rowDiv.appendChild(createKey('pli', null, 'kb-key wide', false, () => {
                         keyboardMode = 'pli';
                         renderKeyboard();
                         if (virtualKeyboardEnabled) updateKeyboardState();
@@ -1580,16 +1625,12 @@
                 }
 
                 rowChars.forEach(char => {
-                    let alt = null;
-                    if (keyboardMode === 'default') {
-                        if (char === 'j') alt = 'ĵ';
-                        if (char === 'h') alt = 'ĥ';
-                    }
-                    rowDiv.appendChild(createKey(char, alt));
+                    const alts = (keyboardMode === 'default') ? ALT_MAP[char] : null;
+                    rowDiv.appendChild(createKey(char, alts));
                 });
                 
                 if (keyboardMode === 'default' && i === 2) {
-                    rowDiv.appendChild(createKey('⌫', null, 'kb-key wide', () => handleVirtualKey('Backspace')));
+                    rowDiv.appendChild(createKey('⌫', null, 'kb-key wide', false, () => handleVirtualKey('Backspace')));
                 }
                 kb.appendChild(rowDiv);
             });
@@ -1598,57 +1639,111 @@
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'kb-row';
                 
-                rowDiv.appendChild(createKey('abc', null, 'kb-key wide', () => {
+                rowDiv.appendChild(createKey('abc', null, 'kb-key wide', false, () => {
                     keyboardMode = 'default';
                     renderKeyboard();
                     if (virtualKeyboardEnabled) updateKeyboardState();
                 }));
                 
-                const spacer = document.createElement('div');
-                spacer.className = 'kb-key';
-                spacer.style.visibility = 'hidden';
-                spacer.style.flex = '4';
-                rowDiv.appendChild(spacer);
+                const hintDiv = document.createElement('div');
+                hintDiv.style.flex = '4';
+                hintDiv.style.display = 'flex';
+                hintDiv.style.alignItems = 'center';
+                hintDiv.style.justifyContent = 'center';
+                hintDiv.style.fontSize = '0.8em';
+                hintDiv.style.color = 'var(--text-secondary)';
+                hintDiv.style.textAlign = 'center';
+                hintDiv.innerHTML = '<span>ankaŭ provu <i>long-premon</i> por pli da opcioj</span>';
+                rowDiv.appendChild(hintDiv);
 
-                rowDiv.appendChild(createKey('⌫', null, 'kb-key wide', () => handleVirtualKey('Backspace')));
+                rowDiv.appendChild(createKey('⌫', null, 'kb-key wide', false, () => handleVirtualKey('Backspace')));
                 kb.appendChild(rowDiv);
             }
         }
 
-        function createKey(label, altChar, className = 'kb-key', customAction = null) {
+        function createKey(label, alts, className = 'kb-key', isAlt = false, customAction = null) {
             const key = document.createElement('div');
             key.className = className;
             key.textContent = label;
             
             let timer = null;
-            let triggered = false;
+            let popup = null;
 
             const start = (e) => {
-                if (e.cancelable) e.preventDefault();
-                triggered = false;
-                if (altChar) {
+                if (e.cancelable && e.type === 'touchstart') e.preventDefault();
+                
+                if (alts && alts.length > 0) {
                     timer = setTimeout(() => {
-                        handleVirtualKey(altChar);
-                        triggered = true;
+                        showPopup();
                         if (navigator.vibrate) navigator.vibrate(50);
                     }, 400);
+                }
+                
+                document.addEventListener('mouseup', end);
+                document.addEventListener('touchend', end);
+                document.addEventListener('mousemove', move);
+                document.addEventListener('touchmove', move, { passive: false });
+            };
+
+            const showPopup = () => {
+                popup = document.createElement('div');
+                popup.className = 'kb-popup';
+                alts.forEach(char => {
+                    const pKey = document.createElement('div');
+                    pKey.className = 'kb-popup-key';
+                    pKey.textContent = char;
+                    pKey.dataset.char = char;
+                    if (char === label) pKey.classList.add('selected');
+                    popup.appendChild(pKey);
+                });
+                key.appendChild(popup);
+            };
+
+            const move = (e) => {
+                if (timer && !popup) {
+                    // If moved significantly before timer, cancel timer? 
+                    // For now, let's just keep timer running unless we want strict tap vs scroll handling.
+                    // But we prevent default on touchstart, so scrolling is disabled on keys anyway.
+                }
+                
+                if (popup) {
+                    e.preventDefault();
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    
+                    const target = document.elementFromPoint(clientX, clientY);
+                    const keys = popup.querySelectorAll('.kb-popup-key');
+                    keys.forEach(k => k.classList.remove('selected'));
+                    
+                    if (target && target.classList.contains('kb-popup-key') && popup.contains(target)) {
+                        target.classList.add('selected');
+                    }
                 }
             };
 
             const end = (e) => {
-                if (e.cancelable) e.preventDefault();
                 if (timer) clearTimeout(timer);
-                if (!triggered) {
+                
+                if (popup) {
+                    const selected = popup.querySelector('.kb-popup-key.selected');
+                    if (selected) {
+                        handleVirtualKey(selected.dataset.char);
+                    }
+                    popup.remove();
+                    popup = null;
+                } else {
                     if (customAction) customAction();
                     else handleVirtualKey(label);
                 }
+                
+                document.removeEventListener('mouseup', end);
+                document.removeEventListener('touchend', end);
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('touchmove', move);
             };
 
             key.ontouchstart = start;
-            key.ontouchend = end;
             key.onmousedown = start;
-            key.onmouseup = end;
-            key.onmouseleave = () => { if (timer) clearTimeout(timer); };
             
             return key;
         }
