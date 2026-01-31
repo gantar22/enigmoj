@@ -27,7 +27,7 @@ export function executeConfirm() {
 export function openSubmitModal() {
     stopTimer();
     const puzzleRecord = puzzleStore[state.currentPuzzleId];
-    const targetEmail = puzzleRecord.contestEmail || 'me@example.com';
+    const targetEmail = puzzleRecord.contestEmail || 'nathancarterwilliams@gmail.com';
     document.getElementById('submit-email-display').textContent = targetEmail;
     document.getElementById('submit-modal').style.display = 'flex';
 }
@@ -48,7 +48,7 @@ export function sendSubmission() {
     }
 
     const puzzleRecord = puzzleStore[state.currentPuzzleId];
-    const targetEmail = puzzleRecord.contestEmail || 'me@example.com';
+    const targetEmail = puzzleRecord.contestEmail || 'nathancarterwilliams@gmail.com';
     
     let gridString = "";
     for(let r=0; r<state.currentPuzzleData.height; r++) {
