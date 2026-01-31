@@ -1,32 +1,49 @@
 <!doctype html>
-<html lang="en">
+<html lang="eo">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    >
-
-    <title>Enigmoj</title>
+    <title>Enigmoj - Rimedoj</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: var(--bg-body, #ffffff);
+            color: var(--text-main, #333333);
+            margin: 0 auto;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        header {
+        }
+        a {
+            color: var(--link-color, #0066cc);
+        }
+        button {
+            background-color: var(--progress-bg, #e0e0e0);
+            color: var(--text-main, #333);
+            border: 1px solid var(--clue-bar-border, #ccc);
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            filter: brightness(0.9);
+        }
+    </style>
   </head>
+  <body>
+    <header>
+        <div class="header-content" style="max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 10px 20px; border-bottom: 2px solid var(--text-main); color: var(--text-main, #333);">
+            <div style="grid-column: 1;">
+                <button class="back-btn" onclick="location.href='index.html'" style="font-size: 1.5em;">←</button>
+            </div>
+            <h1 style="margin: 0; grid-column: 2; text-align: center;">Rimedoj</h1>
+            <div style="grid-column: 3;"></div>
+        </div>
+    </header>
 
-  <header class="container">
-    <hgroup>
-    <nav>
-    <ul>
-        <li><strong>Enigmejo</strong></li>
-    </ul>
-    <ul>
-        <li><a href="index.html">🏠</a></li>
-        <li><a href="ludi.html">Ludi</a></li>
-        <li>Rimedoj</li>
-    </ul>
-    </nav>
-</hgroup>
-</header>
-<body class="container">
+    <main style="max-width: 800px; margin: 0 auto; padding: 20px;">
     <article>
         <h2>La Redaktilo</h2>
         Mi uzas krucvort-redaktilo nomata <a href="https://ingrid.cx/">Ingrid</a>. Mi uzas Ingrid ĉar:
@@ -45,7 +62,7 @@
         <p>Pri la vortlisto, mi havas programaron kiu ĉerpas vortojn el kelkaj fontoj.</p>
         <h3>Reta Vortaro</h3>
         <p>
-        <a href="https://www.reta-vortaro.de/revo/dlg/index-2m.html#enigm.krucvort0o" class="contrast">ReVo</a> havas bone ordigitan gramatikon, kiun mi uzas por aldoni gramatikajn finaĵojn. 
+        <a href="https://www.reta-vortaro.de/revo/dlg/index-2m.html#enigm.krucvort0o">ReVo</a> havas bone ordigitan gramatikon, kiun mi uzas por aldoni gramatikajn finaĵojn. 
         Mi aldone uzas apostrofigitajn substantivojn eĉ se la resulta vorto ne estas facile elparolebla.
         Mi preferus ne, sed ĉiam temas pri malfacilaj elektoj ĉe la verkado de krucvortenigmoj.
         ReVo ankaŭ kategorias vortojn laŭ fako, kaj mi uzas tion por malpliigi la poentaron de vortoj en tro-specifaj fakoj kiu aliokaze superregus la liston pro kvanto.
@@ -53,7 +70,7 @@
         </p>
         <h3>Tekstaro</h3>
         <p>
-        El la <a href="https://tekstaro.com/" class="contrast">Tekstaro</a> mi ĉerpas pliajn kunmetitajn vortojn, kontrolante ke la partoj estas en ReVo.
+        El la <a href="https://tekstaro.com/">Tekstaro</a> mi ĉerpas pliajn kunmetitajn vortojn, kontrolante ke la partoj estas en ReVo.
         Se vorto aperas en pli ol unu fonto, mi kolektas ĝin kaj atribuas poentojn laŭ komponentoj.
         Mi nur uzas la akuzativan formon de vortoj se ili aperas en vera fonto en akuzativa formo.
         </p>
@@ -73,17 +90,17 @@
         </p>
         Sube vi povas elŝuti miajn listojn aŭ vidi mian kodon.
     </article>
-    <div class="grid">
-        <button onclick="location.href='resources/vortlisto.dict'">
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0;">
+        <button onclick="downloadResource('resources/vortlisto.dict')">
             Vortaro
         </button>
-        <button onclick="location.href='resources/tekstaro.dict'">
+        <button onclick="downloadResource('resources/tekstaro.dict')">
             Tekstaro
         </button>
-        <button onclick="location.href='resources/permane.dict'">
+        <button onclick="downloadResource('resources/permane.dict')">
             Permana Listo
         </button>
-        <button onclick="location.href='resources/bitlibroj.dict'">
+        <button onclick="downloadResource('resources/bitlibroj.dict')">
             Listo de Miaj Bitlibroj
         </button>
         <button onclick="location.href='https://github.com/gantar22/Krucvortenigmoj'">
@@ -105,7 +122,7 @@
             Oni povas trovi la proverboj ĉe <a href="https://proverbaro.net/">Proverbaro.net</a>. 
             Mi uzis <b>pdf</b> al <b>txt</b> konvertilon por generi <b>grep</b>-eblan version.
         </p>
-        <div class="grid"><button onclick="location.href='resources/proverbaro.txt'">Proverbaro.txt</button></div>
+        <div style="margin: 10px 0;"><button onclick="downloadResource('resources/proverbaro.txt')">Proverbaro.txt</button></div>
         <h3>Vortaroj</h3>
         <p>
             Kiam mi ne povas elpensi sagacan indikon, ĉiam haveblas difinoj aŭ sinominoj en PIV kaj ReVo. 
@@ -113,5 +130,20 @@
             Foje mi uzas la vortarojn por serĉi vortojn laŭ kategorio aŭ literumado, por uzi ilin kolektive kiel temon de enigmo.
         </p>
     </article>
-</body>
+    </main>
+
+    <script type="module">
+        import { initTheme } from './js/theme.js';
+        initTheme();
+
+        window.downloadResource = (url) => {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = url.split('/').pop();
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+    </script>
+  </body>
 </html>
