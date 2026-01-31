@@ -55,7 +55,7 @@ function initList() {
     const categories = {
         'etetaj': { title: 'Etetaj', el: null },
         'malgrandaj': { title: 'Malgrandaj', el: null },
-        'mezgrandaj': { title: 'Mezgrandaj', el: null },
+        'mezgrandaj': { title: 'Plengrandaj', el: null },
         'grandaj': { title: 'Grandaj', el: null }
     };
 
@@ -94,8 +94,8 @@ function initList() {
             const maxDim = Math.max(w, h);
             
             let cat = 'grandaj';
-            if (maxDim < 7) cat = 'etetaj';
-            else if (maxDim <= 12) cat = 'malgrandaj';
+            if (maxDim <= 7) cat = 'etetaj';
+            else if (maxDim <= 11) cat = 'malgrandaj';
             else if (maxDim <= 16) cat = 'mezgrandaj';
             
             categories[cat].el.appendChild(btn);
