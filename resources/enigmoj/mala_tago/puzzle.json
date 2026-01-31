@@ -1,0 +1,101 @@
+{
+  "puzzle": [
+    [
+      "#",
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      },
+      {
+        "cell": 4
+      }
+    ],
+    [
+      {
+        "cell": 5
+      },
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 6
+      },
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 7
+      },
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 8
+      },
+      0,
+      0,
+      0,
+      "#"
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "(mal) 8-Horizontale"
+      ],
+      [
+        5,
+        "(mal) Tiaman"
+      ],
+      [
+        6,
+        "(mal) Estis evitinda"
+      ],
+      [
+        7,
+        "(mal) Defendo"
+      ],
+      [
+        8,
+        "(mal) 1-Horizontale"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "(mal) Demetu de muro"
+      ],
+      [
+        2,
+        "(mal) Plata surfac', eventuale kvieta"
+      ],
+      [
+        3,
+        "(mal) Faka"
+      ],
+      [
+        4,
+        "(mal) Plata surfac', eventuale por faligi"
+      ],
+      [
+        5,
+        "(mal) Konsent' pri ĉiu punkto"
+      ]
+    ]
+  }
+}

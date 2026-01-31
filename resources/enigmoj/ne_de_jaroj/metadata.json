@@ -1,0 +1,12 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "title": "Ne de jaroj, blankiĝas la haroj",
+  "author": "ByKartero",
+  "dimensions": {
+    "width": 15,
+    "height": 15
+  }
+}

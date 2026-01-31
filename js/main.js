@@ -4,7 +4,7 @@ import { formatTitle, parseIpuz, formatTime } from './utils.js';
 import { renderCardContent, renderPuzzle, adjustClueDisplayHeight, renderPlaceholder } from './renderer.js';
 import { loadProgress, saveProgress } from './storage.js';
 import { startTimer, stopTimer } from './timer.js';
-import { updateProgressBar, checkPuzzle, clearChecks, revealWord } from './game.js';
+import { updateProgressBar, checkPuzzle, clearChecks, revealWord, savePencilState, loadPencilState, updateClearChecksVisibility } from './game.js';
 import { initTheme, toggleTheme } from './theme.js';
 import { renderKeyboard, updateKeyboardState, toggleKeyboard } from './keyboard.js';
 import { handleClueClick, navigateClue, updateHighlights, moveFocus, jumpToNextClue, jumpToPreviousClue } from './navigation.js';
@@ -32,22 +32,81 @@ const listView = document.getElementById('list-view');
 const gameView = document.getElementById('game-view');
 const gridContainer = document.getElementById('grid-container');
 
+function togglePencilMode() {
+    state.isPencilMode = !state.isPencilMode;
+    const btn = document.getElementById('pencil-toggle-btn');
+    if (btn) {
+        btn.classList.toggle('active', state.isPencilMode);
+    }
+}
+window.togglePencilMode = togglePencilMode;
+
 function initList() {
     const container = document.getElementById('list-all');
     if (!container) return;
     container.innerHTML = '';
     
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+
+    const categories = {
+        'etetaj': { title: 'Etetaj', el: null },
+        'malgrandaj': { title: 'Malgrandaj', el: null },
+        'mezgrandaj': { title: 'Mezgrandaj', el: null },
+        'grandaj': { title: 'Grandaj', el: null }
+    };
+
+    const categoryOrder = ['etetaj', 'malgrandaj', 'mezgrandaj', 'grandaj'];
+
+    categoryOrder.forEach(key => {
+        const section = document.createElement('div');
+        section.className = 'puzzle-category';
+        section.style.marginBottom = '30px';
+        section.style.width = '100%';
+        
+        const title = document.createElement('h2');
+        title.textContent = categories[key].title;
+        title.style.textTransform = 'capitalize';
+        title.style.borderBottom = '2px solid var(--text-secondary)';
+        title.style.paddingBottom = '5px';
+        title.style.marginBottom = '15px';
+        section.appendChild(title);
+        
+        const list = document.createElement('div');
+        list.className = 'puzzle-list';
+        list.style.display = 'flex';
+        list.style.overflowX = 'auto';
+        list.style.gap = '15px';
+        list.style.padding = '5px 0 15px 0';
+        
+        section.appendChild(list);
+        container.appendChild(section);
+        categories[key].el = list;
+    });
+
     puzzleList.forEach(key => {
-        const btn = document.createElement('button');
-        btn.className = 'puzzle-card';
-        renderPlaceholder(btn, key);
-        btn.onclick = () => {
-            if (puzzleStore[key]) loadGame(key);
+        const addToCategory = (data, btn) => {
+            const w = data.dimensions ? data.dimensions.width : 0;
+            const h = data.dimensions ? data.dimensions.height : 0;
+            const maxDim = Math.max(w, h);
+            
+            let cat = 'grandaj';
+            if (maxDim < 7) cat = 'etetaj';
+            else if (maxDim <= 12) cat = 'malgrandaj';
+            else if (maxDim <= 16) cat = 'mezgrandaj';
+            
+            categories[cat].el.appendChild(btn);
         };
-        container.appendChild(btn);
 
         if (puzzleStore[key]) {
+            const btn = document.createElement('button');
+            btn.className = 'puzzle-card';
+            btn.style.flex = '0 0 220px';
+            addToCategory(puzzleStore[key], btn);
             renderCardContent(btn, key, puzzleStore[key]);
+            btn.onclick = () => {
+                if (puzzleStore[key] && puzzleStore[key].puzzle) loadGame(key);
+            };
             
             // Check for deep link
             const params = new URLSearchParams(window.location.search);
@@ -55,10 +114,31 @@ function initList() {
                 loadGame(key, false);
             }
         } else {
-            // Fetch
-            fetch(`resources/enigmoj/${key}.ipuz`)
-                .then(response => response.json())
-                .then(data => {
+            // Fetch metadata first
+            const basePath = `resources/enigmoj/${key}`;
+            fetch(`${basePath}/metadata.json`)
+                .then(r => r.ok ? r.json() : Promise.reject('Metadata missing'))
+                .then(metadata => {
+                    puzzleStore[key] = { ...metadata };
+                    
+                    const btn = document.createElement('button');
+                    btn.className = 'puzzle-card';
+                    btn.style.flex = '0 0 220px';
+                    btn.onclick = () => {
+                        if (puzzleStore[key] && puzzleStore[key].puzzle) loadGame(key);
+                    };
+                    
+                    addToCategory(puzzleStore[key], btn);
+                    renderCardContent(btn, key, puzzleStore[key]);
+                    
+                    return Promise.all([
+                        fetch(`${basePath}/puzzle.json`).then(r => r.ok ? r.json() : Promise.reject('Puzzle missing')),
+                        fetch(`${basePath}/solution.json`).then(r => r.ok ? r.json() : {}),
+                        Promise.resolve(btn)
+                    ]);
+                })
+                .then(([puzzle, solution, btn]) => {
+                    const data = { ...puzzleStore[key], ...puzzle, ...solution };
                     puzzleStore[key] = data;
                     renderCardContent(btn, key, data);
                     
@@ -70,7 +150,6 @@ function initList() {
                 })
                 .catch(err => {
                     console.error("Failed to load puzzle " + key, err);
-                    btn.innerHTML += `<div style="color:red">Error</div>`;
                 });
         }
     });
@@ -79,6 +158,7 @@ function initList() {
 function showList(updateUrl = true) {
     saveProgress();
     stopTimer();
+    savePencilState();
     
     gameView.classList.remove('active');
     listView.classList.add('active');
@@ -120,6 +200,7 @@ function loadGame(id, updateUrl = true) {
 
     renderPuzzle(state.currentPuzzleData);
     loadProgress();
+    loadPencilState(id);
     updateProgressBar();
     
     // Check if puzzle is already solved
@@ -163,7 +244,7 @@ function loadGame(id, updateUrl = true) {
 function updateContestModeUI() {
     document.querySelector('.menu-reveal').style.display = state.isContestMode ? 'none' : 'block';
     document.querySelector('.menu-check').style.display = state.isContestMode ? 'none' : 'block';
-    document.querySelector('.menu-clear').style.display = state.isContestMode ? 'none' : 'block';
+    updateClearChecksVisibility();
 }
 
 function toggleMenu() {
@@ -223,6 +304,7 @@ gridContainer.addEventListener('keydown', (e) => {
                 }
             } else {
                 e.target.value = '';
+                e.target.classList.remove('pencil');
                 saveProgress();
                 updateProgressBar(true);
             }
@@ -233,6 +315,7 @@ gridContainer.addEventListener('keydown', (e) => {
             break;
     }
     if (!moved) updateHighlights(e.target);
+    savePencilState();
 });
 
 gridContainer.addEventListener('input', (e) => {
@@ -245,8 +328,16 @@ gridContainer.addEventListener('input', (e) => {
     }
     
     e.target.classList.remove('correct', 'incorrect');
+    
+    if (state.isPencilMode) {
+        e.target.classList.add('pencil');
+    } else {
+        e.target.classList.remove('pencil');
+    }
     saveProgress();
+    savePencilState();
     updateProgressBar(true);
+
     const r = parseInt(e.target.dataset.row);
     const c = parseInt(e.target.dataset.col);
     if (e.target.value.length > 0) {
@@ -287,6 +378,7 @@ document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         stopTimer();
         saveProgress();
+        savePencilState();
     } else if (gameView.classList.contains('active') && document.getElementById('completion-modal').style.display !== 'flex' && document.getElementById('submit-modal').style.display !== 'flex') {
         startTimer();
     }
@@ -295,6 +387,7 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('blur', () => {
     stopTimer();
     saveProgress();
+    savePencilState();
 });
 
 window.addEventListener('focus', () => {
@@ -308,6 +401,34 @@ initTheme();
 initList();
 renderKeyboard();
 updateKeyboardState();
+
+state.isPencilMode = false;
+const timerDisplay = document.getElementById('timer-display');
+let menuContainer = document.querySelector('.menu-container');
+const hamburgerBtn = document.querySelector('.hamburger-btn');
+const gameMenu = document.getElementById('game-menu');
+
+const pencilBtn = document.createElement('button');
+pencilBtn.id = 'pencil-toggle-btn';
+pencilBtn.className = 'icon-btn';
+pencilBtn.innerHTML = '✎';
+pencilBtn.title = 'Krajon-reĝimo';
+pencilBtn.onclick = togglePencilMode;
+
+if (!menuContainer && hamburgerBtn && hamburgerBtn.parentNode) {
+    menuContainer = document.createElement('div');
+    menuContainer.className = 'menu-container';
+    hamburgerBtn.parentNode.insertBefore(menuContainer, hamburgerBtn);
+    menuContainer.appendChild(hamburgerBtn);
+    if (gameMenu) menuContainer.appendChild(gameMenu);
+}
+
+if (timerDisplay && menuContainer && hamburgerBtn) {
+    menuContainer.insertBefore(timerDisplay, hamburgerBtn);
+    menuContainer.insertBefore(pencilBtn, hamburgerBtn);
+} else if (timerDisplay && timerDisplay.parentNode) {
+    timerDisplay.parentNode.insertBefore(pencilBtn, timerDisplay.nextSibling);
+}
 
 // Check initial URL
 const params = new URLSearchParams(window.location.search);

@@ -1,0 +1,667 @@
+{
+  "puzzle": [
+    [
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      },
+      {
+        "cell": 4
+      },
+      "#",
+      {
+        "cell": 5
+      },
+      {
+        "cell": 6
+      },
+      {
+        "cell": 7
+      },
+      {
+        "cell": 8
+      },
+      "#",
+      {
+        "cell": 9
+      },
+      {
+        "cell": 10
+      },
+      {
+        "cell": 11
+      },
+      {
+        "cell": 12
+      },
+      {
+        "cell": 13
+      }
+    ],
+    [
+      {
+        "cell": 14
+      },
+      0,
+      0,
+      0,
+      {
+        "cell": 15
+      },
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 16
+      },
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 17
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 18
+      },
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 19
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 20
+      },
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 21
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      {
+        "cell": 22
+      },
+      0,
+      0,
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 23
+      },
+      {
+        "cell": 24
+      },
+      {
+        "cell": 25
+      },
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 26
+      },
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 27
+      },
+      {
+        "cell": 28
+      },
+      {
+        "cell": 29
+      }
+    ],
+    [
+      {
+        "cell": 30
+      },
+      0,
+      0,
+      {
+        "cell": 31
+      },
+      {
+        "cell": 32
+      },
+      {
+        "cell": 33
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 34
+      },
+      0,
+      {
+        "cell": 35
+      },
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 36
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 37
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 38
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 39
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 40
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 41
+      },
+      0,
+      {
+        "cell": 42
+      },
+      0,
+      0,
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 43
+      },
+      0,
+      0
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 44
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      {
+        "cell": 45
+      },
+      {
+        "cell": 46
+      },
+      {
+        "cell": 47
+      },
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 48
+      },
+      {
+        "cell": 49
+      },
+      {
+        "cell": 50
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 51
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      {
+        "cell": 52
+      },
+      {
+        "cell": 53
+      },
+      {
+        "cell": 54
+      }
+    ],
+    [
+      {
+        "cell": 55
+      },
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 56
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 57
+      },
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 58
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 59
+      },
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 60
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 61
+      },
+      0,
+      0,
+      0
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "Duelista glav'"
+      ],
+      [
+        5,
+        "Daŭra korsent'"
+      ],
+      [
+        9,
+        "Leĝar' de judismo"
+      ],
+      [
+        14,
+        "Amuleto"
+      ],
+      [
+        16,
+        "Kia la skolo, kiu verkis \"Ekstremoj\""
+      ],
+      [
+        17,
+        "rosa PARKS, post busvojaĝo"
+      ],
+      [
+        18,
+        "Kien oni metas poŝtukon ĉe vespermanĝo"
+      ],
+      [
+        19,
+        "Kultivi florojn kaj vegetaĵojn apud la domo"
+      ],
+      [
+        20,
+        "\"Je via sano\""
+      ],
+      [
+        21,
+        "Sulkoj"
+      ],
+      [
+        23,
+        "eli URBANOV"
+      ],
+      [
+        26,
+        "Mov' 18 Horiz."
+      ],
+      [
+        27,
+        "Semol'"
+      ],
+      [
+        30,
+        "Ripetiĝomalsamiĝo"
+      ],
+      [
+        34,
+        "Tian, emfaze"
+      ],
+      [
+        36,
+        "Malbeninda miksaĵo, en formo de manĝaĵa metaforo"
+      ],
+      [
+        37,
+        "Larm' de la dioj"
+      ],
+      [
+        38,
+        "Referenc' al antaŭa parto"
+      ],
+      [
+        39,
+        "Semajne je la tago de Zeŭso"
+      ],
+      [
+        40,
+        "Nom' de la suno"
+      ],
+      [
+        41,
+        "Rilata al tra-aeraj elsendaĵoj"
+      ],
+      [
+        43,
+        "Sidej' de la sentoj"
+      ],
+      [
+        44,
+        "Kiel oni uzas a-vorton"
+      ],
+      [
+        48,
+        "Kia bona vortaro"
+      ],
+      [
+        51,
+        "Nacia himn' de Francujo"
+      ],
+      [
+        55,
+        "Ag' pri kiu ni neniam laciĝas"
+      ],
+      [
+        56,
+        "Humoro"
+      ],
+      [
+        57,
+        "Patrina diino de la egiptoj"
+      ],
+      [
+        58,
+        "Sciencon pri aŭtomatoj"
+      ],
+      [
+        59,
+        "Centaŭr' kiu trejnis Aĥilon"
+      ],
+      [
+        60,
+        "La plej altan kaj malaltan rangon"
+      ],
+      [
+        61,
+        "Matena malseko"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "Lernoserv'"
+      ],
+      [
+        2,
+        "Dividebla per du"
+      ],
+      [
+        3,
+        "Markez'"
+      ],
+      [
+        4,
+        "Distingi ion _____ alia"
+      ],
+      [
+        5,
+        "Eksa karul'"
+      ],
+      [
+        6,
+        "Adolteco"
+      ],
+      [
+        7,
+        "Besto"
+      ],
+      [
+        8,
+        "Instruist', parolante pri scioj"
+      ],
+      [
+        9,
+        "La kompakta disk' kaj ties portebla aparat'"
+      ],
+      [
+        10,
+        "Kristnaskarboj"
+      ],
+      [
+        11,
+        "Okul' de fotilo"
+      ],
+      [
+        12,
+        "Malgranda grup'"
+      ],
+      [
+        13,
+        "Ĝingiso de la mongoloj"
+      ],
+      [
+        15,
+        "JOHANSSON, aŭtoro"
+      ],
+      [
+        22,
+        "La jena"
+      ],
+      [
+        23,
+        "Estras"
+      ],
+      [
+        24,
+        "Markaŝtano"
+      ],
+      [
+        25,
+        "Kristana ĥoraĵ' kiun kunkantas ĉiuj ĉeestantoj"
+      ],
+      [
+        27,
+        "Bluverd'"
+      ],
+      [
+        28,
+        "Ekstrema parto"
+      ],
+      [
+        29,
+        "_____ blinduloj regas la strabaj"
+      ],
+      [
+        31,
+        "Ke lupo ekpentis, ___o atentu"
+      ],
+      [
+        32,
+        "Bontenon de piano"
+      ],
+      [
+        33,
+        "Ne pliaj"
+      ],
+      [
+        35,
+        "Volonta"
+      ],
+      [
+        37,
+        "Mallaŭda patoso"
+      ],
+      [
+        39,
+        "Harfendos"
+      ],
+      [
+        42,
+        "Havanta oceanan originon"
+      ],
+      [
+        44,
+        "Naĝbirdo"
+      ],
+      [
+        45,
+        "Doktrinon"
+      ],
+      [
+        46,
+        "Surhavaĵ'"
+      ],
+      [
+        47,
+        "Eksterig'"
+      ],
+      [
+        48,
+        "Helena princin' kiu edziniĝis al Kupido"
+      ],
+      [
+        49,
+        "Damaĝi"
+      ],
+      [
+        50,
+        "Princ' en islama lando"
+      ],
+      [
+        52,
+        "Smokingo"
+      ],
+      [
+        53,
+        "Spirita atmosfer'"
+      ],
+      [
+        54,
+        "Atomnumero 30, elparolate"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "puzzle": [
+    [
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      },
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      "#",
+      {
+        "cell": 4
+      },
+      {
+        "cell": 5
+      },
+      0,
+      0,
+      0,
+      {
+        "cell": 6
+      },
+      {
+        "cell": 7
+      },
+      "#"
+    ],
+    [
+      {
+        "cell": 8
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      {
+        "cell": 9
+      }
+    ],
+    [
+      {
+        "cell": 10
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 11
+      },
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 12
+      },
+      0,
+      0,
+      {
+        "cell": 13
+      },
+      "#",
+      {
+        "cell": 14
+      },
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 15
+      },
+      0,
+      0,
+      0,
+      {
+        "cell": 16
+      },
+      "#",
+      {
+        "cell": 17
+      },
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 18
+      },
+      0,
+      0,
+      0,
+      0,
+      {
+        "cell": 19
+      },
+      0,
+      0,
+      0
+    ],
+    [
+      "#",
+      {
+        "cell": 20
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      "#"
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 21
+      },
+      0,
+      0,
+      "#",
+      "#",
+      "#"
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "Eĉ kiu plej bone pafas, tamen ___ maltrafas"
+      ],
+      [
+        4,
+        "Post"
+      ],
+      [
+        8,
+        "Kroma 18-Horizontale"
+      ],
+      [
+        10,
+        "Plant' kiu inspiris la inventon de <i>Velcro</i>"
+      ],
+      [
+        11,
+        "Ok miliard'"
+      ],
+      [
+        12,
+        "Markez'"
+      ],
+      [
+        14,
+        "Porteble potencigita"
+      ],
+      [
+        15,
+        "Manĝegas"
+      ],
+      [
+        17,
+        "Mezurunu' mallongigita per citilo"
+      ],
+      [
+        18,
+        "Finaĵo"
+      ],
+      [
+        20,
+        "Akcepti en sin, kiel ekzemple enmigrantojn en kulturon"
+      ],
+      [
+        21,
+        "Inter pokalo kaj ___oj povas multe okazi"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "Subita kriza malsaniĝ'"
+      ],
+      [
+        2,
+        "Gren', el kiu oni lastatempe faras laktaĵon aparte por lakta kafo"
+      ],
+      [
+        3,
+        "Brilkolora bird' kun longa beko, manĝanta abelojn"
+      ],
+      [
+        4,
+        "Ĉi-tiea, laŭ la aganto"
+      ],
+      [
+        5,
+        "Se mi troviĝus en tiu pozicio, mi ______ ke mi farus pli bone"
+      ],
+      [
+        6,
+        "Laŭleĝa restej'"
+      ],
+      [
+        7,
+        "Inspiri, pulme"
+      ],
+      [
+        8,
+        "Parolanta lingvon kiel la polan, kroatan, ĉeĥan, aŭ la ukrainan"
+      ],
+      [
+        9,
+        "Sekiĝinta lago, sur kies eksa insulo Sovetunio testis armiligitan variolon"
+      ],
+      [
+        13,
+        "Kling' kiu troviĝas en necesejo"
+      ],
+      [
+        16,
+        "Maldiferenci"
+      ],
+      [
+        19,
+        "Model'"
+      ]
+    ]
+  }
+}

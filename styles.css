@@ -24,34 +24,38 @@
     --menu-bg: #ffffff;
     --menu-hover: #f5f5f5;
     --link-color: #0066cc;
+    --link-visited: #660099;
+    --text-pencil: #7f8c8d;
 }
 
 [data-theme="dark"] {
-    --bg-body: #121212;
-    --bg-card: #1e1e1e;
-    --text-main: #dddddd;
-    --text-secondary: #b0b0b0;
-    --text-muted: #a0a0a0;
-    --grid-border: #121212;
-    --cell-bg: #222222;
-    --cell-block: #121212;
-    --input-focus: #1565c0;
-    --active-word: #263238;
-    --active-clue-bg: #3e2723;
-    --active-clue-border: #fbc02d;
-    --clue-filled: #666666;
-    --keyboard-bg: #333333;
-    --key-bg: #424242;
-    --key-text: #f0f0f0;
-    --key-active: #616161;
-    --modal-bg: #1e1e1e;
-    --modal-overlay: rgba(0,0,0,0.7);
-    --progress-bg: #424242;
-    --clue-bar-bg: #1e1e1e;
-    --clue-bar-border: #333333;
-    --menu-bg: #1e1e1e;
-    --menu-hover: #333333;
-    --link-color: #64b5f6;
+    --bg-body: #2C2C2C;
+    --bg-card: #383838;
+    --text-main: #E4E4E4;
+    --text-secondary: #B0B0B0;
+    --text-muted: #808080;
+    --grid-border: #1a1a1a;
+    --cell-bg: #383838;
+    --cell-block: #1f1f20;
+    --input-focus: #978c9e;
+    --active-word: #4A3B55;
+    --active-clue-bg: #47414e;
+    --active-clue-border: #B39CD0;
+    --clue-filled: #707070;
+    --keyboard-bg: #202020;
+    --key-bg: #383838;
+    --key-text: #E4E4E4;
+    --key-active: #505050;
+    --modal-bg: #383838;
+    --modal-overlay: rgba(44, 44, 44, 0.8);
+    --progress-bg: #505050;
+    --clue-bar-bg: #202020;
+    --clue-bar-border: #505050;
+    --menu-bg: #383838;
+    --menu-hover: #505050;
+    --link-color: #A8DADC;
+    --link-visited: #FFC1CC;
+    --text-pencil: #A0A0A0;
 }
 
 body {
@@ -62,6 +66,9 @@ body {
     background: var(--bg-body);
     color: var(--text-main);
 }
+
+a { color: var(--link-color); }
+a:visited { color: var(--link-visited); }
 
 /* List View Styles */
 #list-view { margin: 0 auto; padding-top: 20px; }
@@ -189,6 +196,7 @@ h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; max-width
     box-sizing: border-box;
     touch-action: pan-y;
 }
+.cell input.pencil { color: var(--text-pencil); }
 .cell input:focus { background-color: var(--input-focus); }
 .cell.active-word { background-color: var(--active-word); }
 
@@ -266,7 +274,6 @@ h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; max-width
 #timer-display {
     font-family: monospace;
     font-size: 1.2em;
-    margin-right: 10px;
     color: var(--text-main);
     white-space: nowrap;
 }
@@ -274,6 +281,9 @@ h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; max-width
 /* Menu Styles */
 .menu-container {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 .hamburger-btn {
     background: none;
@@ -309,7 +319,20 @@ h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; max-width
 }
 .menu-item:last-child { border-bottom: none; }
 .menu-item:hover { background-color: var(--menu-hover); }
+.menu-item.pencil-active { background-color: var(--active-word); font-weight: bold; }
 .menu-item.mobile-only { display: none; }
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0 8px;
+    color: var(--text-secondary);
+    line-height: 1;
+}
+.icon-btn:hover { color: var(--text-main); }
+.icon-btn.active { color: var(--link-color); }
 
 .cell input.correct { color: #2e7d32; }
 .cell input.incorrect { color: #c62828; }
@@ -410,7 +433,7 @@ h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; max-width
     width: 400px;
 }
 .modal-title { font-size: 1.5em; margin-bottom: 10px; font-weight: bold; }
-.modal-message { margin-bottom: 20px; color: #555; }
+.modal-message { margin-bottom: 20px; color: var(--text-secondary); }
 .modal-btn {
     padding: 10px 20px;
     border: none;
@@ -517,7 +540,6 @@ body.kb-active {
     }
     #timer-display {
         font-size: 1em;
-        margin-right: 5px;
     }
     .back-btn { font-size: 0.9em; padding: 6px 12px; }
     #clue-bar {

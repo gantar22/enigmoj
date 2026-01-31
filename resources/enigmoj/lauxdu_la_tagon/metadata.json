@@ -1,0 +1,12 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "title": "Laŭdu la tagon nur vespere",
+  "author": "Bykartero WILLIAMS",
+  "dimensions": {
+    "width": 9,
+    "height": 9
+  }
+}

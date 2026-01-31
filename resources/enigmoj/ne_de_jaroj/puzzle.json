@@ -1,0 +1,697 @@
+{
+  "puzzle": [
+    [
+      "#",
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      },
+      "#",
+      {
+        "cell": 4
+      },
+      {
+        "cell": 5
+      },
+      {
+        "cell": 6
+      },
+      {
+        "cell": 7
+      },
+      "#",
+      {
+        "cell": 8
+      },
+      {
+        "cell": 9
+      },
+      {
+        "cell": 10
+      },
+      {
+        "cell": 11
+      },
+      "#"
+    ],
+    [
+      {
+        "cell": 12
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 13
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 14
+      },
+      0,
+      0,
+      0,
+      {
+        "cell": 15
+      }
+    ],
+    [
+      {
+        "cell": 16
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 17
+      },
+      0,
+      0,
+      0,
+      {
+        "cell": 18
+      },
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 19
+      },
+      0,
+      0,
+      0,
+      {
+        "cell": 20
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 21
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 22
+      },
+      0,
+      0,
+      0,
+      "#",
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 23
+      },
+      {
+        "cell": 24
+      },
+      {
+        "cell": 25
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 26
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 27
+      },
+      {
+        "cell": 28
+      },
+      {
+        "cell": 29
+      },
+      {
+        "cell": 30
+      }
+    ],
+    [
+      {
+        "cell": 31
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 32
+      },
+      {
+        "cell": 33
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 34
+      },
+      {
+        "cell": 35
+      },
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 36
+      },
+      0,
+      0,
+      {
+        "cell": 37
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 38
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 39
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 40
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 41
+      },
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 42
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 43
+      },
+      {
+        "cell": 44
+      },
+      0,
+      0,
+      "#",
+      {
+        "cell": 45
+      },
+      {
+        "cell": 46
+      },
+      0,
+      0,
+      0
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 47
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 48
+      },
+      0,
+      0,
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 49
+      },
+      {
+        "cell": 50
+      },
+      {
+        "cell": 51
+      },
+      {
+        "cell": 52
+      },
+      0,
+      0,
+      0,
+      0,
+      {
+        "cell": 53
+      },
+      0,
+      0,
+      0,
+      {
+        "cell": 54
+      },
+      {
+        "cell": 55
+      },
+      {
+        "cell": 56
+      }
+    ],
+    [
+      {
+        "cell": 57
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 58
+      },
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 59
+      },
+      0,
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 60
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 61
+      },
+      0,
+      0,
+      0
+    ],
+    [
+      "#",
+      {
+        "cell": 62
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 63
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 64
+      },
+      0,
+      0,
+      "#"
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "Subtenant', parolante pri planlingvoj"
+      ],
+      [
+        4,
+        "Ramadan'"
+      ],
+      [
+        8,
+        "Partoprenas, parolante pri kongresoj"
+      ],
+      [
+        12,
+        "Agi kiel la Berlina Muro"
+      ],
+      [
+        13,
+        "Per malnova bileto kiu pagas poŝtmarkon kaj kiun UEA akceptis kiel pago ĝis 2008, mallonge"
+      ],
+      [
+        14,
+        "Aŭtej'"
+      ],
+      [
+        16,
+        "Manier' ektrakti"
+      ],
+      [
+        17,
+        "Utopi'"
+      ],
+      [
+        19,
+        "La celo de la homa menso... 49-Horizontale"
+      ],
+      [
+        21,
+        "Bobelart-a programo"
+      ],
+      [
+        22,
+        "Tiaj, kiaj sanktuloj"
+      ],
+      [
+        23,
+        "Senveturile"
+      ],
+      [
+        26,
+        "Vintra vestaĵ'"
+      ],
+      [
+        27,
+        "Sak' de vento, trovita apud forno aŭ kameno"
+      ],
+      [
+        31,
+        "Arb' betulaca havanta amentojn"
+      ],
+      [
+        32,
+        "Skerm-glav'"
+      ],
+      [
+        34,
+        "Japana buked-art'"
+      ],
+      [
+        36,
+        "Admir' kaj ĉarmiĝ'"
+      ],
+      [
+        38,
+        "Arbo kiu rolas en <i>La eta princo</i>"
+      ],
+      [
+        39,
+        "Eksplodos"
+      ],
+      [
+        40,
+        "Part' de la dika intesto"
+      ],
+      [
+        41,
+        "Paŭsosign'"
+      ],
+      [
+        42,
+        "Membro de la lando de, sufikse"
+      ],
+      [
+        43,
+        "Johan' en Serbujo"
+      ],
+      [
+        45,
+        "Japana jako"
+      ],
+      [
+        47,
+        "Ne vira individu'"
+      ],
+      [
+        48,
+        "Dezerta rifuĝej'"
+      ],
+      [
+        49,
+        "19-Horizontale ...estas maltrankviliĝo"
+      ],
+      [
+        57,
+        "Matena sablodeponejo"
+      ],
+      [
+        58,
+        "Stamp'"
+      ],
+      [
+        59,
+        "Senondec'"
+      ],
+      [
+        60,
+        "Batalej'"
+      ],
+      [
+        61,
+        "La -i- en Sovetio"
+      ],
+      [
+        62,
+        "Skeleta"
+      ],
+      [
+        63,
+        "Konsistigi, numere"
+      ],
+      [
+        64,
+        "URL komenciĝo"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "Organizaĵo kiu fondis <i>Interlingua</i>-n"
+      ],
+      [
+        2,
+        "Foliet'"
+      ],
+      [
+        3,
+        "Kola gland'"
+      ],
+      [
+        4,
+        "Bankrot'"
+      ],
+      [
+        5,
+        "Malgranda grup'"
+      ],
+      [
+        6,
+        "Son' de kato kuranta sur tro glata planko"
+      ],
+      [
+        7,
+        "Kudropingl'"
+      ],
+      [
+        8,
+        "Ĉikaga futbalteamo"
+      ],
+      [
+        9,
+        "Piedaranĝ'"
+      ],
+      [
+        10,
+        "Gimnazia korsent'"
+      ],
+      [
+        11,
+        "Romia senatan', Gajo"
+      ],
+      [
+        12,
+        "Speciala dividaĵ' en ujo"
+      ],
+      [
+        15,
+        "Animalo, prefikse"
+      ],
+      [
+        18,
+        "Indiferentaj"
+      ],
+      [
+        20,
+        "Valoras ne la vesto, valoras la ______"
+      ],
+      [
+        23,
+        "Restigi, kutime sur asfalto"
+      ],
+      [
+        24,
+        "Garnitura"
+      ],
+      [
+        25,
+        "Ekkon', biblie"
+      ],
+      [
+        26,
+        "Cel' de la batalantoj, kiuj kolektiĝas sub la sankta signo de l' espero"
+      ],
+      [
+        27,
+        "Rampul'"
+      ],
+      [
+        28,
+        "Prakalkulilo"
+      ],
+      [
+        29,
+        "Agad' de la esperantoj, per kio rapide kreskas la afero"
+      ],
+      [
+        30,
+        "Oravida raso de <i>Tolkien</i>"
+      ],
+      [
+        33,
+        "Simbolon de justeco"
+      ],
+      [
+        35,
+        "Ĉevalpart' uzata en arĉo"
+      ],
+      [
+        37,
+        "Esperanta oratoro"
+      ],
+      [
+        38,
+        "Tro da ___o ne turmentas"
+      ],
+      [
+        40,
+        "Grandpiedul'"
+      ],
+      [
+        44,
+        "Puras rilate al amoro"
+      ],
+      [
+        46,
+        "Horizona angul' komence de nordo"
+      ],
+      [
+        47,
+        "Tia, kia bone funkcianta servo"
+      ],
+      [
+        48,
+        "Kontraŭi"
+      ],
+      [
+        49,
+        "Kriant' kiu prokrastis ĝis Petro malkonfesis"
+      ],
+      [
+        50,
+        "Ĉevala genro"
+      ],
+      [
+        51,
+        "Profitis"
+      ],
+      [
+        52,
+        "Kudropingl'"
+      ],
+      [
+        53,
+        "Islama klerul'"
+      ],
+      [
+        54,
+        "Psalm'"
+      ],
+      [
+        55,
+        "Inflama reag' al alergio"
+      ],
+      [
+        56,
+        "Teamo en nederlanda korbopilkado"
+      ]
+    ]
+  }
+}

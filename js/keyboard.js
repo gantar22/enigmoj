@@ -1,6 +1,6 @@
 import { state } from './state.js';
 import { saveProgress } from './storage.js';
-import { updateProgressBar } from './game.js';
+import { updateProgressBar, savePencilState } from './game.js';
 import { moveFocus, jumpToNextClue, jumpToPreviousClue } from './navigation.js';
 
 const ALT_MAP = {
@@ -197,13 +197,23 @@ export function handleVirtualKey(key) {
             else moveFocus(r - 1, c) || jumpToPreviousClue(r, c, 'down');
         } else {
             state.lastActiveCell.value = '';
+            state.lastActiveCell.classList.remove('pencil');
             saveProgress();
+            savePencilState();
             updateProgressBar(true);
         }
     } else {
         state.lastActiveCell.value = key;
         state.lastActiveCell.classList.remove('correct', 'incorrect');
+        
+        if (state.isPencilMode) {
+            state.lastActiveCell.classList.add('pencil');
+        } else {
+            state.lastActiveCell.classList.remove('pencil');
+        }
+
         saveProgress();
+        savePencilState();
         updateProgressBar(true);
         
         const r = parseInt(state.lastActiveCell.dataset.row);

@@ -1,0 +1,12 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "title": "Senteme",
+  "author": "",
+  "dimensions": {
+    "width": 9,
+    "height": 9
+  }
+}

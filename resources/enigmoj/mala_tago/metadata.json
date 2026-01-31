@@ -1,0 +1,12 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "title": "Mala Tago",
+  "author": "",
+  "dimensions": {
+    "width": 5,
+    "height": 5
+  }
+}

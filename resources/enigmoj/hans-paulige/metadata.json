@@ -1,0 +1,15 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "copyright": "",
+  "title": "Hans-Paulige",
+  "author": "DeKartero WILLIAMS",
+  "notes": "",
+  "block": "#",
+  "dimensions": {
+    "height": 21,
+    "width": 21
+  }
+}

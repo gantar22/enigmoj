@@ -1,0 +1,273 @@
+{
+  "puzzle": [
+    [
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      },
+      {
+        "cell": 4
+      },
+      {
+        "cell": 5
+      },
+      {
+        "cell": 6
+      },
+      {
+        "cell": 7
+      },
+      {
+        "cell": 8
+      },
+      {
+        "cell": 9
+      }
+    ],
+    [
+      {
+        "cell": 10
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 11
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      "#",
+      {
+        "cell": 12
+      },
+      0,
+      0,
+      0,
+      "#",
+      {
+        "cell": 13
+      },
+      0,
+      0
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 14
+      },
+      0,
+      {
+        "cell": 15
+      },
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 16
+      },
+      {
+        "cell": 17
+      },
+      {
+        "cell": 18
+      },
+      "#",
+      {
+        "cell": 19
+      },
+      0,
+      {
+        "cell": 20
+      },
+      {
+        "cell": 21
+      },
+      "#"
+    ],
+    [
+      {
+        "cell": 22
+      },
+      0,
+      0,
+      {
+        "cell": 23
+      },
+      0,
+      0,
+      0,
+      0,
+      {
+        "cell": 24
+      }
+    ],
+    [
+      {
+        "cell": 25
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      {
+        "cell": 26
+      },
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "Ne _________ irante, _________ 26-Horizontale"
+      ],
+      [
+        10,
+        "Konforme al"
+      ],
+      [
+        11,
+        "Fari kiel JoMo"
+      ],
+      [
+        12,
+        "Laŭ religia aŭ folklora tradicio"
+      ],
+      [
+        13,
+        "Duon-periodo de 14-Horizontale"
+      ],
+      [
+        14,
+        "Periodaĵ', ruse aŭ sinuse"
+      ],
+      [
+        16,
+        "Ŝtelema korved' kun nigra kaj blanka plumaro"
+      ],
+      [
+        19,
+        "Malgranda grup'"
+      ],
+      [
+        22,
+        "Laŭ aparta konceptado de la mondo"
+      ],
+      [
+        25,
+        "Tiu hom', kiu plenumas la planojn"
+      ],
+      [
+        26,
+        "Ne 1-Horizontale irante, 1-Horizontale_________"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "Arb' kies ligno bone bruliĝas"
+      ],
+      [
+        2,
+        "Havig' al si"
+      ],
+      [
+        3,
+        "Skribi memorigilon"
+      ],
+      [
+        4,
+        "Felikso al Lazaro"
+      ],
+      [
+        5,
+        "Ekscitiĝa hormon'"
+      ],
+      [
+        6,
+        "Fiksita voj', fere"
+      ],
+      [
+        7,
+        "Vivten'"
+      ],
+      [
+        8,
+        "Esti sen kaŝoj, kiel novnaskito"
+      ],
+      [
+        9,
+        "Eŭropo, politike"
+      ],
+      [
+        15,
+        "Medikamenta"
+      ],
+      [
+        16,
+        "Edzin' de Deŭkaliono, kiu kune travivis la inundegon"
+      ],
+      [
+        17,
+        "Koncepte"
+      ],
+      [
+        18,
+        "Gepatr' de gepatroj"
+      ],
+      [
+        20,
+        "Eksterordinare intensan"
+      ],
+      [
+        21,
+        "Klak' de glasoj"
+      ],
+      [
+        23,
+        "Bruligaĵ', por lampoj"
+      ],
+      [
+        24,
+        "Malege"
+      ]
+    ]
+  }
+}

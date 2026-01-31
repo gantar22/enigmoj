@@ -12,7 +12,7 @@ export const puzzleList = [
     'ne_de_jaroj',
     'nova_pli_vigla',
     'okazas',
-    'po_tri_foje_jare',
+    'po_tri_fojojn_jare',
     'revolucie',
     'senteme',
     'serpente',

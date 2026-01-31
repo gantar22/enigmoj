@@ -4,6 +4,43 @@ import { formatTime } from './utils.js';
 import { stopTimer, startTimer } from './timer.js';
 import { showConfirmModal, closeModal, openSubmitModal } from './modals.js';
 
+export function savePencilState() {
+    if (!state.currentPuzzleId) return;
+    const pencilState = {};
+    document.querySelectorAll('.cell input.pencil').forEach(input => {
+        pencilState[`${input.dataset.row},${input.dataset.col}`] = true;
+    });
+    localStorage.setItem('cw_pencil_' + state.currentPuzzleId, JSON.stringify(pencilState));
+}
+
+export function loadPencilState(id) {
+    const json = localStorage.getItem('cw_pencil_' + id);
+    if (!json) return;
+    try {
+        const pencilState = JSON.parse(json);
+        document.querySelectorAll('.cell input').forEach(input => {
+            if (pencilState[`${input.dataset.row},${input.dataset.col}`]) {
+                input.classList.add('pencil');
+            } else {
+                input.classList.remove('pencil');
+            }
+        });
+    } catch (e) { console.error(e); }
+}
+
+export function updateClearChecksVisibility() {
+    const clearBtn = document.querySelector('.menu-clear');
+    if (!clearBtn) return;
+
+    if (state.isContestMode) {
+        clearBtn.style.display = 'none';
+        return;
+    }
+
+    const hasChecks = document.querySelectorAll('.cell input.correct, .cell input.incorrect').length > 0;
+    clearBtn.style.display = hasChecks ? 'block' : 'none';
+}
+
 export function updateProgressBar(fromUser = false) {
     const inputs = document.querySelectorAll('.cell input');
     const total = inputs.length;
@@ -11,7 +48,7 @@ export function updateProgressBar(fromUser = false) {
     
     let filled = 0;
     inputs.forEach(input => {
-        if (input.value) filled++;
+        if (input.value && !input.classList.contains('pencil')) filled++;
     });
     
     const pct = (filled / total) * 100;
@@ -83,7 +120,7 @@ export function updateClueCompletion() {
                 if (isBlock) break;
 
                 const input = document.querySelector(`input[data-row="${currR}"][data-col="${currC}"]`);
-                if (!input || !input.value) {
+                if (!input || !input.value || input.classList.contains('pencil')) {
                     isFilled = false;
                     break;
                 }
@@ -128,17 +165,19 @@ export function doCheckPuzzle() {
         
         input.classList.remove('correct', 'incorrect');
         
-        if (val) {
+        if (val && !input.classList.contains('pencil')) {
             if (val === String(sol).toUpperCase()) input.classList.add('correct');
             else input.classList.add('incorrect');
         }
     });
+    updateClearChecksVisibility();
 }
 
 export function clearChecks() {
     document.querySelectorAll('.cell input').forEach(input => {
         input.classList.remove('correct', 'incorrect');
     });
+    updateClearChecksVisibility();
 }
 
 export function revealWord() {
@@ -188,7 +227,7 @@ export function doRevealWord() {
 
         if (state.currentPuzzleData.solution[currR] && state.currentPuzzleData.solution[currR][currC]) {
             input.value = state.currentPuzzleData.solution[currR][currC];
-            input.classList.remove('correct', 'incorrect');
+            input.classList.remove('correct', 'incorrect', 'pencil');
         }
 
         if (dir === 'across') currC++;
@@ -197,6 +236,7 @@ export function doRevealWord() {
     
     saveProgress();
     updateProgressBar(true);
+    updateClearChecksVisibility();
 }
 
 export function checkAndShowModal() {

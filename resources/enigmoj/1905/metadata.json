@@ -1,0 +1,15 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "copyright": "",
+  "title": "1905",
+  "author": "Bykartero WILLIAMS",
+  "notes": "",
+  "block": "#",
+  "dimensions": {
+    "height": 9,
+    "width": 9
+  }
+}

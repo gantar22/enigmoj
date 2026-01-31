@@ -1,0 +1,15 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "copyright": "",
+  "title": "Naske",
+  "author": "kartero",
+  "notes": "",
+  "block": "#",
+  "dimensions": {
+    "height": 13,
+    "width": 13
+  }
+}

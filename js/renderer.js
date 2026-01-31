@@ -29,7 +29,7 @@ export function renderCardContent(btn, key, p) {
         if (p.puzzle) {
             p.puzzle.forEach(row => {
                 row.forEach(cell => {
-                    let isBlock = cell === '#' || cell === null;
+                    let isBlock = cell === '#' || cell === '.';
                     if (typeof cell === 'object' && cell !== null && cell.style && cell.style.shapebg === 'circle') {
                         isBlock = false; 
                     }
@@ -42,7 +42,7 @@ export function renderCardContent(btn, key, p) {
             // Re-iterate to check correctness using coordinates
             p.puzzle.forEach((row, r) => {
                 row.forEach((cell, c) => {
-                    let isBlock = cell === '#' || cell === null;
+                    let isBlock = cell === '#' || cell === '.';
                     if (typeof cell === 'object' && cell !== null && cell.style && cell.style.shapebg === 'circle') isBlock = false;
                     if (!isBlock) {
                         const val = savedState[`${r},${c}`];
@@ -71,12 +71,15 @@ export function renderCardContent(btn, key, p) {
     const statusClass = status === 'Solved!' ? 'puzzle-status solved' : 'puzzle-status';
 
     let previewHtml = '';
-    if (p.puzzle) {
-        const w = p.dimensions.width;
-        previewHtml = `<div class="puzzle-preview" style="grid-template-columns: repeat(${w}, 1fr); font-size: calc(200px / ${w} * 0.65);">`;
+    if (p.puzzle && p.puzzle.length) {
+        let w = (p.dimensions && p.dimensions.width) ? parseInt(p.dimensions.width) : 0;
+        if (!w && p.puzzle[0]) w = p.puzzle[0].length;
+        const h = p.puzzle.length;
+
+        previewHtml = `<div class="puzzle-preview" style="display: grid; grid-template-columns: repeat(${w}, 1fr); font-size: calc(280px / ${w} * 0.65); aspect-ratio: ${w}/${h};">`;
         p.puzzle.forEach((row, r) => {
             row.forEach((cell, c) => {
-                let isBlock = cell === '#' || cell === null;
+                let isBlock = cell === '#' || cell === '.';
                 let isCircle = false;
                 if (typeof cell === 'object' && cell !== null && cell.style && cell.style.shapebg === 'circle') {
                     isBlock = false;
@@ -87,9 +90,17 @@ export function renderCardContent(btn, key, p) {
                 if (!isBlock && savedState) {
                     letter = savedState[`${r},${c}`] || '';
                 }
-                previewHtml += `<div class="preview-cell ${isBlock ? 'block' : ''} ${isCircle ? 'circle' : ''}">${letter}</div>`;
+                previewHtml += `<div class="preview-cell ${isBlock ? 'block' : ''} ${isCircle ? 'circle' : ''}" style="aspect-ratio: 1; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; text-transform: uppercase;">${letter}</div>`;
             });
         });
+        previewHtml += '</div>';
+    } else if (p.dimensions) {
+        const w = p.dimensions.width;
+        const h = p.dimensions.height;
+        previewHtml = `<div class="puzzle-preview" style="display: grid; grid-template-columns: repeat(${w}, 1fr); font-size: calc(280px / ${w} * 0.65); aspect-ratio: ${w}/${h};">`;
+        for (let i = 0; i < w * h; i++) {
+            previewHtml += `<div class="preview-cell" style="aspect-ratio: 1; width: 100%;"></div>`;
+        }
         previewHtml += '</div>';
     }
 
@@ -119,7 +130,7 @@ export function renderPuzzle(data) {
     data.grid.forEach((row, rIndex) => {
         row.forEach((cellData, cIndex) => {
             const cell = document.createElement('div');
-            let isBlock = cellData === '#' || cellData === null;
+            let isBlock = cellData === '#' || cellData === '.';
             if (typeof cellData === 'object' && cellData !== null && cellData.style && cellData.style.shapebg === 'circle') {
                 isBlock = false; 
             }
