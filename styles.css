@@ -594,3 +594,75 @@ body.kb-active {
         padding-right: 10px;
     }
 }
+
+@media print {
+    @page { margin: 1cm; }
+    body { 
+        background: white; 
+        color: black; 
+        padding: 0; 
+        font-size: 12pt;
+    }
+    
+    /* Hide non-printable elements */
+    #list-view, #about-view, #upload-view, 
+    .menu-container, .game-header button, .back-btn, 
+    #virtual-keyboard, #clue-bar, .clue-nav, 
+    #pencil-toggle-btn, #timer-display, #consent-banner,
+    .puzzle-list, .puzzle-category, #home-menu-btn, #home-menu {
+        display: none !important;
+    }
+
+    #game-view { display: block !important; }
+    
+    #game-layout {
+        display: block;
+        margin-top: 0;
+    }
+
+    .game-header {
+        display: block;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .game-header h2 {
+        font-size: 24pt;
+        color: black;
+    }
+
+    .crossword-grid {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto 20px auto;
+        border: 2px solid black;
+        gap: 0;
+        background-color: transparent !important;
+        --cell-size: calc(500px / var(--grid-cols));
+    }
+    
+    .cell {
+        border: 1px solid black;
+        background-color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .cell.block {
+        background-color: black !important;
+        border-color: black;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    #clues-container {
+        display: block !important;
+        height: auto !important;
+        max-height: none !important;
+    }
+    
+    #across-clues, #down-clues {
+        overflow: visible !important;
+        column-count: 2;
+        column-gap: 20px;
+    }
+}

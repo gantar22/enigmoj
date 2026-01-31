@@ -27,6 +27,8 @@ window.sendSubmission = sendSubmission;
 window.copySubmission = copySubmission;
 window.closeCluesModal = closeCluesModal;
 window.showUpload = showUpload;
+window.downloadIpuz = downloadIpuz;
+window.printPuzzle = printPuzzle;
 
 // DOM Elements
 const listView = document.getElementById('list-view');
@@ -34,6 +36,25 @@ const gameView = document.getElementById('game-view');
 const gridContainer = document.getElementById('grid-container');
 let aboutView = null;
 let uploadView = null;
+
+function downloadIpuz() {
+    if (!state.currentPuzzleId || !puzzleStore[state.currentPuzzleId]) return;
+    const data = puzzleStore[state.currentPuzzleId];
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (data.title || 'enigmo').replace(/[<>:"/\\|?*\x00-\x1F]/g, '_') + '.ipuz';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function printPuzzle() {
+    window.print();
+}
 
 function togglePencilMode() {
     state.isPencilMode = !state.isPencilMode;
@@ -166,6 +187,7 @@ function showList(updateUrl = true) {
     stopTimer();
     savePencilState();
     
+    document.title = 'Enigmoj';
     gameView.classList.remove('active');
     if (aboutView) {
         aboutView.classList.remove('active');
@@ -188,6 +210,7 @@ function showAbout(updateUrl = true) {
     saveProgress();
     stopTimer();
     
+    document.title = 'Pri Enigmoj';
     gameView.classList.remove('active');
     listView.classList.remove('active');
     if (uploadView) {
@@ -211,6 +234,7 @@ function showUpload(updateUrl = true) {
     saveProgress();
     stopTimer();
     
+    document.title = 'Alŝuti Enigmon';
     gameView.classList.remove('active');
     listView.classList.remove('active');
     if (aboutView) {
@@ -306,6 +330,7 @@ function loadGame(id, updateUrl = true) {
         return;
     }
 
+    document.title = record.title || 'Enigmo';
     state.currentPuzzleId = id;
     state.currentPuzzleData = parseIpuz(record);
     let titleHtml = formatTitle(record.title);
@@ -652,8 +677,35 @@ function toggleHomeMenu(e) {
 }
 window.toggleHomeMenu = toggleHomeMenu;
 
+function initGameMenuButtons() {
+    const menu = document.getElementById('game-menu');
+    if (!menu) return;
+    
+    if (menu.querySelector('.menu-download')) return;
+
+    const downloadBtn = document.createElement('button');
+    downloadBtn.className = 'menu-item menu-download';
+    downloadBtn.textContent = 'Elŝuti (.ipuz)';
+    downloadBtn.onclick = () => {
+        downloadIpuz();
+        toggleMenu();
+    };
+
+    const printBtn = document.createElement('button');
+    printBtn.className = 'menu-item menu-print';
+    printBtn.textContent = 'Presi (PDF)';
+    printBtn.onclick = () => {
+        printPuzzle();
+        toggleMenu();
+    };
+
+    menu.appendChild(downloadBtn);
+    menu.appendChild(printBtn);
+}
+
 initAbout();
 initHomeMenu();
+initGameMenuButtons();
 
 // Mobile layout optimizations
 const mobileStyle = document.createElement('style');
