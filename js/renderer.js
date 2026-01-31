@@ -5,7 +5,7 @@ import { formatTitle } from './utils.js';
 export function renderPlaceholder(btn, key) {
     btn.style.opacity = '0.7';
     btn.innerHTML = `
-        <div class="puzzle-title">${formatTitle(key)}</div>
+        <div class="puzzle-title" style="min-height: 3.5em; display: flex; align-items: center; justify-content: center;"><span>${formatTitle(key)}</span></div>
         <div class="puzzle-preview" style="aspect-ratio: 1; background-color: rgba(128,128,128,0.1); width: 100%; border-radius: 4px;"></div>
         <div class="puzzle-status">Loading...</div>
     `;
@@ -17,6 +17,13 @@ export function renderCardContent(btn, key, p) {
     // Check progress
     const savedJson = localStorage.getItem('cw_progress_' + key);
     const savedTime = localStorage.getItem('cw_time_' + key);
+    const savedPencilJson = localStorage.getItem('cw_pencil_' + key);
+    let pencilState = {};
+    if (savedPencilJson) {
+        try {
+            pencilState = JSON.parse(savedPencilJson);
+        } catch (e) { }
+    }
     let savedState = null;
     let status = 'Start';
 
@@ -88,7 +95,9 @@ export function renderCardContent(btn, key, p) {
                 
                 let letter = '';
                 if (!isBlock && savedState) {
-                    letter = savedState[`${r},${c}`] || '';
+                    if (!pencilState[`${r},${c}`]) {
+                        letter = savedState[`${r},${c}`] || '';
+                    }
                 }
                 previewHtml += `<div class="preview-cell ${isBlock ? 'block' : ''} ${isCircle ? 'circle' : ''}" style="aspect-ratio: 1; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; text-transform: uppercase;">${letter}</div>`;
             });
@@ -104,13 +113,13 @@ export function renderCardContent(btn, key, p) {
         previewHtml += '</div>';
     }
 
-    let titleHtml = p.title;
+    let titleHtml = formatTitle(p.title);
     if (p.contestMode) {
         titleHtml += ' <span class="contest-icon" title="Konkurso">🏆</span>';
     }
 
     btn.innerHTML = `
-        <div class="puzzle-title">${titleHtml}</div>
+        <div class="puzzle-title" style="min-height: 3.5em; display: flex; align-items: center; justify-content: center;"><span>${titleHtml}</span></div>
         ${previewHtml}
         <div class="${statusClass}">${status}</div>
     `;

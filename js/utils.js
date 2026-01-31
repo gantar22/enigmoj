@@ -1,5 +1,7 @@
 export function formatTitle(key) {
-    return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    if (!key) return '';
+    const text = String(key).replace(/_/g, ' ').toLowerCase();
+    return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 export function formatTime(secs) {

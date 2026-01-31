@@ -9,6 +9,7 @@
     --cell-block: #000000;
     --input-focus: #bbdefb;
     --active-word: #e1f5fe;
+    --related-word-bg: #faf9ea;
     --active-clue-bg: #fff9c4;
     --active-clue-border: #fbc02d;
     --clue-filled: #8c8c8c;
@@ -39,6 +40,7 @@
     --cell-block: #1f1f20;
     --input-focus: #978c9e;
     --active-word: #4A3B55;
+    --related-word-bg: #38343d;
     --active-clue-bg: #47414e;
     --active-clue-border: #B39CD0;
     --clue-filled: #707070;
@@ -199,6 +201,7 @@ h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; max-width
 .cell input.pencil { color: var(--text-pencil); }
 .cell input:focus { background-color: var(--input-focus); }
 .cell.active-word { background-color: var(--active-word); }
+.cell.related-word:not(.active-word), .clue-item.related-clue { background-color: var(--related-word-bg); }
 
 .cell.circle::after {
     content: '';
@@ -367,6 +370,12 @@ h1 { text-align: center; color: var(--text-main); margin-bottom: 30px; max-width
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+#current-clue-display:active {
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 4px;
 }
 .clue-nav {
     background: none;
@@ -543,7 +552,7 @@ body.kb-active {
     }
     .back-btn { font-size: 0.9em; padding: 6px 12px; }
     #clue-bar {
-        padding: 15px 10px calc(15px + env(safe-area-inset-bottom, 0px));
+        padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px));
         position: fixed;
         bottom: 0;
         left: 0;
@@ -556,7 +565,7 @@ body.kb-active {
         transition: bottom 0.2s;
     }
     #current-clue-display {
-        font-size: .9em;
+        font-size: .85em;
         margin: 0;
     }
     body.kb-active #clue-bar {
