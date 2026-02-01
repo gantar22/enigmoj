@@ -17,6 +17,13 @@
         .view-container h2 { border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 30px; }
         .resource-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 20px 0; }
         .resource-grid button { padding: 10px; cursor: pointer; width: 100%; }
+        /* Toggle Switch */
+        .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #2196F3; }
+        input:checked + .slider:before { transform: translateX(26px); }
     </style>
 </head>
 <body>
@@ -43,6 +50,7 @@
                     <button class="menu-item mobile-only" onclick="openCluesModal(); toggleMenu()">Montri Indikojn</button>
                     <button id="menu-submit-btn" class="menu-item" onclick="openSubmitModal(); toggleMenu()" style="display: none;">Submit Solution</button>
                     <button class="menu-item" onclick="toggleKeyboard(); toggleMenu()">Ŝalti Klavaron</button>
+                    <button class="menu-item" onclick="openSettingsModal(); toggleMenu()">Agordoj</button>
                     <button class="menu-item" onclick="toggleTheme(); toggleMenu()">Ŝanĝi Helreĝimon</button>
                 </div>
             </div>
@@ -76,6 +84,52 @@
     <div id="consent-banner">
         We store your game progress on this device so you can resume later.
         <button onclick="acceptConsent()">I understand</button>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">Agordoj</div>
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label for="setting-space-action" style="display: block; margin-bottom: 5px; font-weight: bold; color: var(--text-main);">Spaco-klavo:</label>
+                <select id="setting-space-action" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid var(--text-secondary); background-color: var(--bg-body); color: var(--text-main);">
+                    <option value="toggle">Baskuli direkton de indiko</option>
+                    <option value="clear">Forviŝi aktivan ĉelon</option>
+                </select>
+            </div>
+            <div style="text-align: left; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <label for="setting-clock-visible" style="font-weight: bold; color: var(--text-main);">Horloĝo:</label>
+                <label class="switch">
+                    <input type="checkbox" id="setting-clock-visible">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div style="text-align: left; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <label for="setting-advance-on-change" style="font-weight: bold; color: var(--text-main);">Antaŭeniri post direktoŝanĝo:</label>
+                <label class="switch">
+                    <input type="checkbox" id="setting-advance-on-change">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div style="text-align: left; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <label for="setting-skip-filled" style="font-weight: bold; color: var(--text-main);">Pretersalti plenajn ĉelojn post enigo:</label>
+                <label class="switch">
+                    <input type="checkbox" id="setting-skip-filled">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div style="text-align: left; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <label for="setting-advance-on-end" style="font-weight: bold; color: var(--text-main);">Antaŭeniri post fino de vorto:</label>
+                <label class="switch">
+                    <input type="checkbox" id="setting-advance-on-end">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button class="modal-btn secondary" onclick="closeSettingsModal()">Nuligi</button>
+                <button class="modal-btn success" onclick="saveSettings()">Konservi</button>
+            </div>
+        </div>
     </div>
 
     <!-- COMPLETION MODAL -->

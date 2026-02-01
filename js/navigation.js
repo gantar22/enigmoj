@@ -340,3 +340,51 @@ export function handleClueClick(number, direction) {
         }
     }
 }
+
+export function moveCursorForward(r, c, dir) {
+    const skipFilled = localStorage.getItem('cw_setting_skip_filled') === 'true';
+    const advanceOnEnd = localStorage.getItem('cw_setting_advance_on_end') !== 'false';
+    
+    if (!skipFilled) {
+        if (dir === 'across') return moveFocus(r, c + 1) || (advanceOnEnd && jumpToNextClue(r, c, 'across'));
+        else return moveFocus(r + 1, c) || (advanceOnEnd && jumpToNextClue(r, c, 'down'));
+    }
+
+    let dr = dir === 'across' ? 0 : 1;
+    let dc = dir === 'across' ? 1 : 0;
+    let currR = r + dr;
+    let currC = c + dc;
+    let refR = r;
+    let refC = c;
+    
+    let loopCount = 0;
+    const maxLoops = (state.currentPuzzleData.width * state.currentPuzzleData.height) + 10;
+
+    while (loopCount < maxLoops) {
+        loopCount++;
+        const nextInput = document.querySelector(`input[data-row="${currR}"][data-col="${currC}"]`);
+        
+        if (!nextInput) {
+            if (advanceOnEnd && jumpToNextClue(refR, refC, dir)) {
+                const active = document.activeElement;
+                if (active && active.tagName === 'INPUT') {
+                    currR = parseInt(active.dataset.row);
+                    currC = parseInt(active.dataset.col);
+                    refR = currR;
+                    refC = currC;
+                    if (active.value === '') return true;
+                } else return false;
+            } else return false;
+        } else {
+            if (nextInput.value === '') {
+                nextInput.focus();
+                return true;
+            }
+            refR = currR;
+            refC = currC;
+        }
+
+        currR += dr;
+        currC += dc;
+    }
+}

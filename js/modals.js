@@ -149,3 +149,61 @@ export function closeModal() {
         startTimer();
     }
 }
+
+export function openSettingsModal() {
+    const spaceAction = localStorage.getItem('cw_setting_space_action') || 'toggle';
+    const select = document.getElementById('setting-space-action');
+    if (select) select.value = spaceAction;
+
+    const clockVisible = localStorage.getItem('cw_setting_clock_visible') !== 'false';
+    const clockCheck = document.getElementById('setting-clock-visible');
+    if (clockCheck) clockCheck.checked = clockVisible;
+
+    const advanceOnChange = localStorage.getItem('cw_setting_advance_on_change') === 'true';
+    const advanceCheck = document.getElementById('setting-advance-on-change');
+    if (advanceCheck) advanceCheck.checked = advanceOnChange;
+
+    const skipFilled = localStorage.getItem('cw_setting_skip_filled') === 'true';
+    const skipCheck = document.getElementById('setting-skip-filled');
+    if (skipCheck) skipCheck.checked = skipFilled;
+
+    const advanceOnEnd = localStorage.getItem('cw_setting_advance_on_end') !== 'false';
+    const advanceEndCheck = document.getElementById('setting-advance-on-end');
+    if (advanceEndCheck) advanceEndCheck.checked = advanceOnEnd;
+
+    document.getElementById('settings-modal').style.display = 'flex';
+}
+
+export function closeSettingsModal() {
+    document.getElementById('settings-modal').style.display = 'none';
+}
+
+export function saveSettings() {
+    const select = document.getElementById('setting-space-action');
+    if (select) {
+        localStorage.setItem('cw_setting_space_action', select.value);
+    }
+    
+    const clockCheck = document.getElementById('setting-clock-visible');
+    if (clockCheck) {
+        localStorage.setItem('cw_setting_clock_visible', clockCheck.checked);
+        const timer = document.getElementById('timer-display');
+        if (timer) timer.style.display = clockCheck.checked ? 'block' : 'none';
+    }
+
+    const advanceCheck = document.getElementById('setting-advance-on-change');
+    if (advanceCheck) {
+        localStorage.setItem('cw_setting_advance_on_change', advanceCheck.checked);
+    }
+
+    const skipCheck = document.getElementById('setting-skip-filled');
+    if (skipCheck) {
+        localStorage.setItem('cw_setting_skip_filled', skipCheck.checked);
+    }
+
+    const advanceEndCheck = document.getElementById('setting-advance-on-end');
+    if (advanceEndCheck) {
+        localStorage.setItem('cw_setting_advance_on_end', advanceEndCheck.checked);
+    }
+    closeSettingsModal();
+}

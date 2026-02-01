@@ -7,8 +7,8 @@ import { startTimer, stopTimer } from './timer.js';
 import { updateProgressBar, checkPuzzle, clearChecks, revealWord, savePencilState, loadPencilState, updateClearChecksVisibility } from './game.js';
 import { initTheme, toggleTheme } from './theme.js';
 import { renderKeyboard, updateKeyboardState, toggleKeyboard } from './keyboard.js';
-import { handleClueClick, navigateClue, updateHighlights, moveFocus, jumpToNextClue, jumpToPreviousClue } from './navigation.js';
-import { openSubmitModal, openCluesModal, closeSubmitModal, closeCluesModal, closeModal, closeConfirmModal, executeConfirm, sendSubmission, copySubmission } from './modals.js';
+import { handleClueClick, navigateClue, updateHighlights, moveFocus, jumpToNextClue, jumpToPreviousClue, moveCursorForward } from './navigation.js';
+import { openSubmitModal, openCluesModal, closeSubmitModal, closeCluesModal, closeModal, closeConfirmModal, executeConfirm, sendSubmission, copySubmission, openSettingsModal, closeSettingsModal, saveSettings } from './modals.js';
 
 // Expose functions to global scope for HTML onclick handlers
 window.toggleTheme = toggleTheme;
@@ -29,6 +29,9 @@ window.closeCluesModal = closeCluesModal;
 window.showUpload = showUpload;
 window.downloadIpuz = downloadIpuz;
 window.printPuzzle = printPuzzle;
+window.openSettingsModal = openSettingsModal;
+window.closeSettingsModal = closeSettingsModal;
+window.saveSettings = saveSettings;
 
 // DOM Elements
 const listView = document.getElementById('list-view');
@@ -351,6 +354,9 @@ function loadGame(id, updateUrl = true) {
     const savedTime = localStorage.getItem('cw_time_' + id);
     state.puzzleSeconds = savedTime ? parseInt(savedTime, 10) : 0;
     document.getElementById('timer-display').textContent = formatTime(state.puzzleSeconds);
+    
+    const clockVisible = localStorage.getItem('cw_setting_clock_visible') !== 'false';
+    document.getElementById('timer-display').style.display = clockVisible ? 'block' : 'none';
 
     renderPuzzle(state.currentPuzzleData);
     loadProgress();
@@ -442,20 +448,32 @@ gridContainer.addEventListener('keydown', (e) => {
 
     switch (e.key) {
         case 'ArrowUp':
-            if (state.currentDirection === 'across') state.currentDirection = 'down';
-            else moved = moveFocus(r - 1, c) || jumpToPreviousClue(r, c, 'down');
+            if (state.currentDirection === 'across') {
+                state.currentDirection = 'down';
+                if (localStorage.getItem('cw_setting_advance_on_change') !== 'true') break;
+            }
+            moved = moveFocus(r - 1, c) || jumpToPreviousClue(r, c, 'down');
             break;
         case 'ArrowDown':
-            if (state.currentDirection === 'across') state.currentDirection = 'down';
-            else moved = moveFocus(r + 1, c) || jumpToNextClue(r, c, 'down');
+            if (state.currentDirection === 'across') {
+                state.currentDirection = 'down';
+                if (localStorage.getItem('cw_setting_advance_on_change') !== 'true') break;
+            }
+            moved = moveFocus(r + 1, c) || jumpToNextClue(r, c, 'down');
             break;
         case 'ArrowLeft':
-            if (state.currentDirection === 'down') state.currentDirection = 'across';
-            else moved = moveFocus(r, c - 1) || jumpToPreviousClue(r, c, 'across');
+            if (state.currentDirection === 'down') {
+                state.currentDirection = 'across';
+                if (localStorage.getItem('cw_setting_advance_on_change') !== 'true') break;
+            }
+            moved = moveFocus(r, c - 1) || jumpToPreviousClue(r, c, 'across');
             break;
         case 'ArrowRight':
-            if (state.currentDirection === 'down') state.currentDirection = 'across';
-            else moved = moveFocus(r, c + 1) || jumpToNextClue(r, c, 'across');
+            if (state.currentDirection === 'down') {
+                state.currentDirection = 'across';
+                if (localStorage.getItem('cw_setting_advance_on_change') !== 'true') break;
+            }
+            moved = moveFocus(r, c + 1) || jumpToNextClue(r, c, 'across');
             break;
         case 'Backspace':
             if (e.target.value === '') {
@@ -473,7 +491,20 @@ gridContainer.addEventListener('keydown', (e) => {
             break;
         case ' ':
             e.preventDefault();
-            state.currentDirection = state.currentDirection === 'across' ? 'down' : 'across';
+            const spaceAction = localStorage.getItem('cw_setting_space_action');
+            if (spaceAction === 'clear') {
+                e.target.value = '';
+                e.target.classList.remove('pencil');
+                saveProgress();
+                updateProgressBar(true);
+                if (state.currentDirection === 'across') {
+                    moved = moveFocus(r, c + 1) || jumpToNextClue(r, c, 'across');
+                } else {
+                    moved = moveFocus(r + 1, c) || jumpToNextClue(r, c, 'down');
+                }
+            } else {
+                state.currentDirection = state.currentDirection === 'across' ? 'down' : 'across';
+            }
             break;
     }
     if (!moved) updateHighlights(e.target);
@@ -503,8 +534,7 @@ gridContainer.addEventListener('input', (e) => {
     const r = parseInt(e.target.dataset.row);
     const c = parseInt(e.target.dataset.col);
     if (e.target.value.length > 0) {
-        if (state.currentDirection === 'across') moveFocus(r, c + 1) || jumpToNextClue(r, c, 'across');
-        else moveFocus(r + 1, c) || jumpToNextClue(r, c, 'down');
+        moveCursorForward(r, c, state.currentDirection);
     }
 });
 
@@ -665,6 +695,7 @@ function initHomeMenu() {
 
     menu.innerHTML = `
         <button style="display:block; width:100%; text-align:left; padding:10px; background:none; border:none; color:inherit; cursor:pointer; border-bottom:1px solid var(--border-color);" onclick="toggleTheme(); toggleHomeMenu()">Ŝanĝi Helreĝimon</button>
+        <button style="display:block; width:100%; text-align:left; padding:10px; background:none; border:none; color:inherit; cursor:pointer; border-bottom:1px solid var(--border-color);" onclick="openSettingsModal(); toggleHomeMenu()">Agordoj</button>
         <button style="display:block; width:100%; text-align:left; padding:10px; background:none; border:none; color:inherit; cursor:pointer;" onclick="showAbout(); toggleHomeMenu()">Pri ĉio ĉi</button>
         <button style="display:block; width:100%; text-align:left; padding:10px; background:none; border:none; color:inherit; cursor:pointer; border-bottom:1px solid var(--border-color);" onclick="showUpload(); toggleHomeMenu()">Alŝuti Enigmon</button>
     `;

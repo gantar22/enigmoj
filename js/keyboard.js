@@ -1,7 +1,7 @@
 import { state } from './state.js';
 import { saveProgress } from './storage.js';
 import { updateProgressBar, savePencilState } from './game.js';
-import { moveFocus, jumpToNextClue, jumpToPreviousClue } from './navigation.js';
+import { moveFocus, jumpToNextClue, jumpToPreviousClue, moveCursorForward } from './navigation.js';
 
 const ALT_MAP = {
     'a': ['a', 'à', 'á', 'â', 'ä'],
@@ -218,7 +218,6 @@ export function handleVirtualKey(key) {
         
         const r = parseInt(state.lastActiveCell.dataset.row);
         const c = parseInt(state.lastActiveCell.dataset.col);
-        if (state.currentDirection === 'across') moveFocus(r, c + 1) || jumpToNextClue(r, c, 'across');
-        else moveFocus(r + 1, c) || jumpToNextClue(r, c, 'down');
+        moveCursorForward(r, c, state.currentDirection);
     }
 }
