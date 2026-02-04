@@ -25,7 +25,7 @@ export function renderCardContent(btn, key, p) {
         } catch (e) { }
     }
     let savedState = null;
-    let status = 'Start';
+    let status = 'Nekomencita';
 
     if (savedJson) {
         savedState = JSON.parse(savedJson);
