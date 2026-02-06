@@ -19,36 +19,66 @@
       {
         "cell": 5
       },
-      0,
-      0,
-      0,
-      0
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
     ],
     [
       {
         "cell": 6
       },
-      0,
-      0,
-      0,
-      0
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
     ],
     [
       {
         "cell": 7
       },
-      0,
-      0,
-      0,
-      0
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
     ],
     [
       {
         "cell": 8
       },
-      0,
-      0,
-      0,
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
       "#"
     ]
   ],
@@ -82,7 +112,7 @@
       ],
       [
         2,
-        "(mal) Plata surfac', eventuale kvieta"
+        "(mal) Kvieta surfac'"
       ],
       [
         3,
@@ -90,7 +120,7 @@
       ],
       [
         4,
-        "(mal) Plata surfac', eventuale por faligi"
+        "(mal) Faligilo"
       ],
       [
         5,
