@@ -1,0 +1,521 @@
+{
+  "puzzle": [
+    [
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      },
+      "#",
+      {
+        "cell": 4
+      },
+      {
+        "cell": 5
+      },
+      {
+        "cell": 6
+      },
+      "#",
+      {
+        "cell": 7
+      },
+      {
+        "cell": 8
+      },
+      {
+        "cell": 9
+      }
+    ],
+    [
+      {
+        "cell": 10
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 11
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 12
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 13
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 14
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 15
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 16
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 17
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      "#",
+      "#",
+      {
+        "cell": 18
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 19
+      },
+      {
+        "cell": 20
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 21
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 22
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 23
+      },
+      {
+        "cell": 24
+      },
+      {
+        "cell": 25
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 26
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 27
+      },
+      {
+        "cell": 28
+      }
+    ],
+    [
+      {
+        "cell": 29
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 30
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 31
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 32
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 33
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 34
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 35
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 36
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "Lok' de kie oni plej frue vidas la teron"
+      ],
+      [
+        4,
+        "Dukapa simbol' de La Sankta Romia Imperio"
+      ],
+      [
+        7,
+        "\"Trovu libro-fine glosaron de ne-___aj vortoj\""
+      ],
+      [
+        10,
+        "Umanto"
+      ],
+      [
+        11,
+        "Kontraŭe"
+      ],
+      [
+        12,
+        "Ripetata"
+      ],
+      [
+        13,
+        "Postvivant'"
+      ],
+      [
+        15,
+        "Mi havas ___ scion ___ supozon"
+      ],
+      [
+        16,
+        "Proverbo kun 22 Horizontale pri rutinoj"
+      ],
+      [
+        18,
+        "Blankega, sensanga"
+      ],
+      [
+        19,
+        "Tro ____ fajro estas sen daŭro"
+      ],
+      [
+        21,
+        "Garnituro"
+      ],
+      [
+        22,
+        "Alta konstruaĵo okupata de paro"
+      ],
+      [
+        26,
+        "Senmama mamulo"
+      ],
+      [
+        29,
+        "Trempi"
+      ],
+      [
+        30,
+        "Malbonhumora"
+      ],
+      [
+        31,
+        "Hela biero"
+      ],
+      [
+        32,
+        "Enkapaĵ'"
+      ],
+      [
+        33,
+        "Defendendaĵ'"
+      ],
+      [
+        34,
+        "Temp'"
+      ],
+      [
+        35,
+        "(Se mamula) havi mamojn"
+      ],
+      [
+        36,
+        "Ilo el ___ taŭgas por ĉiu laboro"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "ŝakludanta aŭtomat'"
+      ],
+      [
+        2,
+        "Lubriku"
+      ],
+      [
+        3,
+        "Kaposton fake nomatan la okcipito"
+      ],
+      [
+        4,
+        "Film' kiel \"Via nomo\""
+      ],
+      [
+        5,
+        "Katsimala rabobest' trovata en afriko, rilata al la pagumo kaj vivero"
+      ],
+      [
+        6,
+        "Rivero de forgeso"
+      ],
+      [
+        7,
+        "Ŝorto"
+      ],
+      [
+        8,
+        "Nobla celo"
+      ],
+      [
+        9,
+        "Parafinaj"
+      ],
+      [
+        14,
+        "Despoti"
+      ],
+      [
+        17,
+        "Karakter'"
+      ],
+      [
+        19,
+        "Bona trajt' de sektano"
+      ],
+      [
+        20,
+        "Partoprenanto de maratonoj"
+      ],
+      [
+        23,
+        "Sturmi"
+      ],
+      [
+        24,
+        "Robon de Cezaro"
+      ],
+      [
+        25,
+        "Marki la teritorion kiel hundo"
+      ],
+      [
+        27,
+        "An' de la ĉefa gento de Kamboĝo"
+      ],
+      [
+        28,
+        "Verda rifuĝej'"
+      ]
+    ]
+  }
+}
