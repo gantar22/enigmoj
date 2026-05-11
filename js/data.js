@@ -21,5 +21,6 @@ export const puzzleList = [
     'ĉiu_timas_ion',
     //'Naske', // celata por naska fasko, neniam eldonita. Estus pli bone ne eldoni ĉar estas plenplena je "internaj" ŝercoj
     //'1905',
+    'rutinoj',
 ];
 export const puzzleStore = {};
