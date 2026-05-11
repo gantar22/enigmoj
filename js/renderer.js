@@ -62,8 +62,9 @@ export function renderCardContent(btn, key, p) {
         }
 
         if (totalCells > 0 && filledCount >= totalCells) {
-            if (correctCount === totalCells) status = 'Solved!';
-            else status = 'Filled (Incorrect)';
+            if (correctCount === totalCells) status = 'Solvita';
+            else if (!p.solution) status = 'Plenumita';
+            else status = 'Plenumita (kun eraroj)';
         } else {
             if (savedTime) {
                 const m = Math.floor(parseInt(savedTime, 10) / 60).toString().padStart(2, '0');
