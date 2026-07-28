@@ -22,5 +22,12 @@ export const puzzleList = [
     //'Naske', // celata por naska fasko, neniam eldonita. Estus pli bone ne eldoni ĉar estas plenplena je "internaj" ŝercoj
     //'1905',
     'rutinoj',
+    'maskote',
+    'por_la_alta_pugo',
+    'sen_punkte',
+    'senteme_2',
+    'senteme_3',
+    'sur_sxildo',
+    'unu_direkte',
 ];
 export const puzzleStore = {};
