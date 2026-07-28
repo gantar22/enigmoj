@@ -1,0 +1,333 @@
+{
+  "puzzle": [
+    [
+      "#",
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      },
+      {
+        "cell": 4
+      },
+      {
+        "cell": 5
+      },
+      {
+        "cell": 6
+      },
+      "#",
+      "#"
+    ],
+    [
+      "#",
+      {
+        "cell": 7
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      "#"
+    ],
+    [
+      "#",
+      {
+        "cell": 8
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 9
+      },
+      {
+        "cell": 10
+      }
+    ],
+    [
+      {
+        "cell": 11
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      {
+        "cell": 12
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 13
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 14
+      },
+      "#",
+      {
+        "cell": 15
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 16
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 17
+      },
+      "#",
+      {
+        "cell": 18
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 19
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 20
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#"
+    ],
+    [
+      "#",
+      "#",
+      {
+        "cell": 21
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#"
+    ],
+    [
+      "#",
+      "#",
+      {
+        "cell": 22
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#"
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "Provas influi decidantojn kiel premgrupo"
+      ],
+      [
+        7,
+        "\"Gardistoj! ______ tiun homon!\""
+      ],
+      [
+        8,
+        "Surdec' aŭ blindec'"
+      ],
+      [
+        11,
+        "Musteleda maskot' de la <i>Universitato de Viskonsino</i>"
+      ],
+      [
+        12,
+        "Kiel parolas <i>Sam</i>, la maskoto de Usono"
+      ],
+      [
+        13,
+        "Helena poet' kiu tragedie rigardis retroen"
+      ],
+      [
+        15,
+        "Korpopart' inter la brusto kaj koskoj"
+      ],
+      [
+        16,
+        "Pika kiel rozo"
+      ],
+      [
+        18,
+        "\"___!\" diras la kartludanto kiam eĉ ne unu karto ludeblas"
+      ],
+      [
+        19,
+        "Gajnis la koron"
+      ],
+      [
+        21,
+        "Intense streĉi la forton por atingi rezulton"
+      ],
+      [
+        22,
+        "Atencis"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "Permanenta har-forigilon"
+      ],
+      [
+        2,
+        "Rimarkiga"
+      ],
+      [
+        3,
+        "Sanka vort'"
+      ],
+      [
+        4,
+        "vivtenanta ulo"
+      ],
+      [
+        5,
+        "Valut' en la inform-ekonomio"
+      ],
+      [
+        6,
+        "Provi (ĉapelon)"
+      ],
+      [
+        9,
+        "Akceptis"
+      ],
+      [
+        10,
+        "Faris denove"
+      ],
+      [
+        11,
+        "Kiel sinvestas burĝaj junuloj"
+      ],
+      [
+        14,
+        "Malelpren'"
+      ],
+      [
+        17,
+        "Apartenanta Japana etno loĝante en Hokaido, pri kiu Marjorie Boulton verkis en <i>Faktoj kaj fantazioj</i>"
+      ],
+      [
+        20,
+        "Grimpema lacert'"
+      ]
+    ]
+  }
+}

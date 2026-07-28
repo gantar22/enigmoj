@@ -1,0 +1,127 @@
+{
+  "puzzle": [
+    [
+      "#",
+      "#",
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      }
+    ],
+    [
+      {
+        "cell": 4
+      },
+      {
+        "cell": 5
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 6
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 7
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      {
+        "cell": 8
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      "#"
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "Mank' de akvo"
+      ],
+      [
+        4,
+        "Rezulto"
+      ],
+      [
+        6,
+        "*La afero estas"
+      ],
+      [
+        7,
+        "Fremda amin'"
+      ],
+      [
+        8,
+        "*La afero estas"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "Papagi (korpe)"
+      ],
+      [
+        2,
+        "Komenciĝas"
+      ],
+      [
+        3,
+        "Stelej'"
+      ],
+      [
+        4,
+        "Vojaĝer'"
+      ],
+      [
+        5,
+        "Kontraŭ-gripa reag'"
+      ]
+    ]
+  }
+}

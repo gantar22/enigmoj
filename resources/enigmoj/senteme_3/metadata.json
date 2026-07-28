@@ -1,0 +1,15 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "copyright": "© 2026",
+  "title": "Untitled Project",
+  "author": "",
+  "notes": "",
+  "block": "#",
+  "dimensions": {
+    "height": 9,
+    "width": 9
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "puzzle": [
+    [
+      {
+        "cell": 1
+      },
+      {
+        "cell": 2
+      },
+      {
+        "cell": 3
+      },
+      "#",
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 4
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 5
+      },
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 6
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      "#",
+      "#",
+      "#"
+    ],
+    [
+      {
+        "cell": 7
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 8
+      },
+      {
+        "cell": 9
+      },
+      {
+        "cell": 10
+      }
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 11
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 12
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ],
+    [
+      "#",
+      "#",
+      "#",
+      "#",
+      {
+        "cell": 13
+      },
+      {
+        "cell": 0
+      },
+      {
+        "cell": 0
+      }
+    ]
+  ],
+  "clues": {
+    "Across": [
+      [
+        1,
+        "Bulb', eventuale fritata en formo de 10V"
+      ],
+      [
+        4,
+        "Unu traktebla part' de problemo"
+      ],
+      [
+        6,
+        "*Krona"
+      ],
+      [
+        7,
+        "Psikologia difekt'"
+      ],
+      [
+        11,
+        "*Trono"
+      ],
+      [
+        12,
+        "Arb' de posteuloj"
+      ],
+      [
+        13,
+        "Reprezentanto de unu"
+      ]
+    ],
+    "Down": [
+      [
+        1,
+        "Nedubec'"
+      ],
+      [
+        2,
+        "La kvina element'"
+      ],
+      [
+        3,
+        "Havanta tiom da folioj"
+      ],
+      [
+        5,
+        "Diri \"ĉielskrapulo\""
+      ],
+      [
+        8,
+        "Miela"
+      ],
+      [
+        9,
+        "Havas la jarojn"
+      ],
+      [
+        10,
+        "Ringo, pana aŭ alia"
+      ]
+    ]
+  }
+}

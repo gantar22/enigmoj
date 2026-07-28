@@ -1,0 +1,15 @@
+{
+  "version": "http://ipuz.org/v1",
+  "kind": [
+    "http://ipuz.org/crossword#1"
+  ],
+  "copyright": "© 2026",
+  "title": "Senpunkte",
+  "author": "",
+  "notes": "La steleto \"*\" signifas ke tiuj indikoj apartenas al la ĉefa parto de la enigmo. Solvu ĉiun indikon kun steleto kiel unu esprimo.\n\n4H mallongigas 4-Horizontale kaj vi legu tion kiel la solvon de 4-Horizontale enmetitan en la indiko.",
+  "block": "#",
+  "dimensions": {
+    "height": 5,
+    "width": 5
+  }
+}
