@@ -26,8 +26,6 @@ export const puzzleList = [
     'por_la_alta_pugo',
     'senpunkte',
     'senteme_2',
-    'senteme_3',
     'sur_sxildo',
-    'unu_direkte',
 ];
 export const puzzleStore = {};
