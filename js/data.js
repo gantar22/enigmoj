@@ -24,7 +24,7 @@ export const puzzleList = [
     'rutinoj',
     'maskote',
     'por_la_alta_pugo',
-    'sen_punkte',
+    'senpunkte',
     'senteme_2',
     'senteme_3',
     'sur_sxildo',
